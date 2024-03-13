@@ -16,3 +16,6 @@ spring:
         dialect=org:
           hibernate:
             dialect: PostgreSQLDialect
+
+jwt:
+  secret: 'lolkek'
