@@ -20,7 +20,7 @@ public class UserService {
 
     public User saveToDatabase(User user) throws UsernameAlreadyInUseException {
         if (userRepository.existsByUsername(user.getUsername()))
-            throw new UsernameAlreadyInUseException("Username " + user.getUsername() + " already exists");
+            throw new UsernameAlreadyInUseException(user.getUsername());
 
         user.setPassword(encoder.encode(user.getPassword()));
 
@@ -31,9 +31,13 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isEmpty())
-            throw new UsernameNotFoundException("User with username " + username + " not found!");
+            throw new UsernameNotFoundException(username);
 
         return userOptional.get();
+    }
+
+    public Boolean exists(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     public boolean isPasswordCorrect(String username, String password) throws UsernameNotFoundException {

@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsernameAuthoritiesResponse {
+public class UserDto {
     public Long id;
     public String username;
-    public String authorities;
 }

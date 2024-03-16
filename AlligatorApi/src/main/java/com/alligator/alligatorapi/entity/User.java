@@ -20,5 +20,4 @@ public class User {
 
     private String username;
     private String password;
-    private String authorities; // authorities stored like "ROLE_USER,ROLE_ADMIN"
 }

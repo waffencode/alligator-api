@@ -36,26 +36,30 @@ public class AuthenticationController {
         User user = new User(
                 null,
                 request.getUsername(),
-                request.getPassword(),
-                "ROLE_USER"
+                request.getPassword()
         );
 
         User savedUser = userService.saveToDatabase(user);
 
-        return jwtService.generateToken(savedUser.getUsername(), savedUser.getAuthorities());
+        return jwtService.generateTokenFromUsername(savedUser.getUsername());
     }
 
     @PostMapping(path = "/login")
     @ResponseStatus(HttpStatus.OK)
     public String authenticate(@RequestBody AuthenticationRequest request) {
-        if (userService.isPasswordCorrect(request.getUsername(), request.getPassword())) {
+        String username = request.getUsername();
+        String password = request.getPassword();
 
-            User user = userService.loadFromDatabase(request.getUsername());
+        if (userService.isPasswordCorrect(username, password)) {
 
-            return jwtService.generateToken(request.getUsername(), user.getAuthorities());
+            if(!userService.exists(username)) {
+                throw new UsernameNotFoundException(username);
+            }
+
+            return jwtService.generateTokenFromUsername(username);
 
         } else {
-            throw new PasswordDoesntMatchesException("Password doesn't matches for username " + request.getUsername());
+            throw new PasswordDoesntMatchesException();
         }
     }
 }
