@@ -1,11 +1,12 @@
 package com.alligator.alligatorapi.controller;
 
-import com.alligator.alligatorapi.dto.*;
+import com.alligator.alligatorapi.dto.request.AuthenticationRequest;
+import com.alligator.alligatorapi.dto.request.RegistrationRequest;
+import com.alligator.alligatorapi.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.entity.User;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.exception.*;

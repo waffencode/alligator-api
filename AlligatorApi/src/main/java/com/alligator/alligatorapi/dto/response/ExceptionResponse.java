@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.dto;
+package com.alligator.alligatorapi.dto.response;
 
 
 import lombok.AllArgsConstructor;
