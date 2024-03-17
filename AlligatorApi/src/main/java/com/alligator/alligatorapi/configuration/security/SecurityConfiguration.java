@@ -22,14 +22,20 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
+        http
+                .csrf(csrf -> csrf.disable());
+
+        http
+                .cors(cors -> cors.disable());
 
         http
                 .addFilterBefore(new JwtFilter(jwtService, userService), BasicAuthenticationFilter.class);
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/register").permitAll()
+                        .anyRequest().authenticated()
                 );
 
         return http.build();
