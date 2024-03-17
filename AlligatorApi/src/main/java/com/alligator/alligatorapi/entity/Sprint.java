@@ -22,7 +22,7 @@ public class Sprint {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    private Timestamp start;
-    private Timestamp end;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private Long sp;
 }
