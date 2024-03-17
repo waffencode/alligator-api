@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 @Table(name = "sprints")
 public class Sprint {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
