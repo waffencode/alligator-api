@@ -3,6 +3,7 @@ package com.alligator.alligatorapi.service;
 import com.alligator.alligatorapi.entity.User;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
+import com.alligator.alligatorapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
