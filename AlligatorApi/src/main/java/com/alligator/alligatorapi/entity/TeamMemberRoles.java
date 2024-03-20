@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "team_roles")
-public class TeamRoles {
+@Table(name = "team_member_roles")
+public class TeamMemberRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
@@ -23,6 +23,6 @@ public class TeamRoles {
     private TeamMember teamMember;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @JoinColumn(name = "team_role_id")
+    private TeamRole role;
 }

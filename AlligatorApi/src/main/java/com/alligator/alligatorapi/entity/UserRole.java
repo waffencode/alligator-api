@@ -1,6 +1,6 @@
 package com.alligator.alligatorapi.entity;
 
-import com.alligator.alligatorapi.entity.enums.RoleNames;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +13,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "roles")
-public class Role {
+public class UserRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleNames name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
