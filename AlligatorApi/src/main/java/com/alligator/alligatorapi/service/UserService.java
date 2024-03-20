@@ -2,16 +2,14 @@ package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.entity.Role;
 import com.alligator.alligatorapi.entity.User;
-import com.alligator.alligatorapi.entity.UserRole;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
+import com.alligator.alligatorapi.repository.RoleRepository;
 import com.alligator.alligatorapi.repository.UserRepository;
-import com.alligator.alligatorapi.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +20,7 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
 
     public User saveToDatabase(User user) throws UsernameAlreadyInUseException {
         if (userRepository.existsByUsername(user.getUsername()))
@@ -43,9 +41,7 @@ public class UserService {
     }
 
     public List<Role> loadRolesFromDatabase(User user) {
-        return userRoleRepository.findAllByUser(user).stream()
-                .map(UserRole::getRole)
-                .collect(Collectors.toList());
+        return roleRepository.findAllByUser(user);
     }
 
     public Boolean exists(String username) {

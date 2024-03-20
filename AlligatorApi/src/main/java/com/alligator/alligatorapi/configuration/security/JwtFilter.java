@@ -1,7 +1,6 @@
 package com.alligator.alligatorapi.configuration.security;
 
 import com.alligator.alligatorapi.entity.User;
-import com.alligator.alligatorapi.entity.UserRole;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -16,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +66,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                logger.log(Level.INFO, "User " + username + " request to " + requestUri + " authenticated successfully.");
+                logger.log(Level.INFO, "User " + authentication.toString() + " request to " + requestUri + " authenticated successfully.");
 
                 chain.doFilter(request, response);
                 return;
