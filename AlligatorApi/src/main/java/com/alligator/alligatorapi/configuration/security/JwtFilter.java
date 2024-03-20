@@ -1,5 +1,7 @@
 package com.alligator.alligatorapi.configuration.security;
 
+import com.alligator.alligatorapi.entity.User;
+import com.alligator.alligatorapi.entity.UserRole;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -48,12 +51,15 @@ public class JwtFilter extends OncePerRequestFilter {
             if (jwtService.isValid(jwt)) {
 
                 String username = jwtService.pareseUsername(jwt);
-                Long userId = userService.loadFromDatabase(username).getId();
+
+                User user = userService.loadFromDatabase(username);
+                Long userId = user.getId();
+                List<GrantedAuthority> authorities = loadRolesFromDataBase(user);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         username,
                         "[PROTECTED]",
-                        new ArrayList<>() // FILLER
+                        authorities
                 );
 
                 Map<String, Object> details = new HashMap<>();
@@ -71,5 +77,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         logger.log(Level.INFO, "Got invalid jwt in request.");
         chain.doFilter(request, response);
+    }
+
+    private List<GrantedAuthority> loadRolesFromDataBase(User user) {
+        return userService.loadRolesFromDatabase(user).stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getName().name()))
+                .collect(Collectors.toList());
     }
 }
