@@ -1,28 +1,29 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.sprint;
 
-import com.alligator.alligatorapi.entity.enums.RoleNames;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "roles")
-public class Role {
+@Table(name = "sprints")
+public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleNames name;
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private Long sp;
 }

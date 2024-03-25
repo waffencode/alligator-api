@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

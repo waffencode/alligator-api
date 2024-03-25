@@ -4,13 +4,12 @@ import com.alligator.alligatorapi.dto.request.AuthenticationRequest;
 import com.alligator.alligatorapi.dto.request.RegistrationRequest;
 import com.alligator.alligatorapi.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.dto.response.WhoamiResponse;
-import com.alligator.alligatorapi.entity.User;
+import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.alligator.alligatorapi.service.JwtService;
@@ -18,7 +17,6 @@ import com.alligator.alligatorapi.exception.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin

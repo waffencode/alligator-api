@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.sprint;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,26 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "assigned_tasks")
-public class AssignedTask {
+@Table(name = "team_member_roles")
+public class TeamMemberRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "task_id")
-    private SprintTask task;
-    @ManyToOne
     @JoinColumn(name = "team_member_id")
     private TeamMember teamMember;
 
-    private Timestamp assignationTime;
+    @ManyToOne
+    @JoinColumn(name = "team_role_id")
+    private TeamRole role;
 }

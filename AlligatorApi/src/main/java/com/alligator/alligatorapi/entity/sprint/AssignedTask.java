@@ -1,6 +1,5 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.sprint;
 
-import com.alligator.alligatorapi.entity.enums.DeadlineType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,15 +13,19 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "deadlines")
-public class Deadline {
+@Table(name = "assigned_tasks")
+public class AssignedTask {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private Timestamp time;
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private SprintTask task;
+    @ManyToOne
+    @JoinColumn(name = "team_member_id")
+    private TeamMember teamMember;
 
-    @Enumerated(EnumType.STRING)
-    private DeadlineType type;
+    private Timestamp assignationTime;
 }

@@ -1,9 +1,8 @@
 package com.alligator.alligatorapi.controller;
 
-import com.alligator.alligatorapi.entity.User;
+import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

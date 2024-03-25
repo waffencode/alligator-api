@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.sprint;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,24 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sprints")
-public class Sprint {
+@Table(name = "teams")
+public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private Long sp;
+    private String name;
 }

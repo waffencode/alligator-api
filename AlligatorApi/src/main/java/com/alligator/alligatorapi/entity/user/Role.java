@@ -1,5 +1,6 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.user;
 
+import com.alligator.alligatorapi.entity.enums.RoleNames;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,16 +12,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "team_members")
-public class TeamMember {
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @Enumerated(EnumType.STRING)
+    private RoleNames name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

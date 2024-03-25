@@ -1,27 +1,28 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.task;
 
+import com.alligator.alligatorapi.entity.enums.DeadlineType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sprint_task_required_roles")
-public class SprintTaskRequiredRoles {
+@Table(name = "deadlines")
+public class Deadline {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private SprintTask task;
-    @ManyToOne
-    @JoinColumn(name = "team_role_id")
-    private TeamRole role;
+    private Timestamp time;
+
+    @Enumerated(EnumType.STRING)
+    private DeadlineType type;
 }

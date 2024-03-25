@@ -1,5 +1,6 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.task.Task;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,18 +12,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "team_member_roles")
-public class TeamMemberRoles {
+@Table(name = "sprint_tasks")
+public class SprintTask {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "team_member_id")
-    private TeamMember teamMember;
-
+    @JoinColumn(name = "sprint_id")
+    private Sprint sprint;
     @ManyToOne
-    @JoinColumn(name = "team_role_id")
-    private TeamRole role;
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+    private Long sp;
 }

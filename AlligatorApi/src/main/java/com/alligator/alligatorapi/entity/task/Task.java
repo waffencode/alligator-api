@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity;
+package com.alligator.alligatorapi.entity.task;
 
 import com.alligator.alligatorapi.entity.enums.TaskPriority;
 import com.alligator.alligatorapi.entity.enums.TaskState;
