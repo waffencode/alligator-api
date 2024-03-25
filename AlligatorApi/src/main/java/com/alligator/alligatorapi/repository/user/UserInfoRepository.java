@@ -12,12 +12,4 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     @Override
     @PreAuthorize("@securityService.validateUsernameSameAsPrincipal(#userInfo.user.username)")
     UserInfo save(@Param("userInfo") UserInfo userInfo);
-
-    @Override
-    @PreAuthorize("isAuthenticated()")
-    Optional<UserInfo> findById(Long aLong);
-
-    @Override
-    @PreAuthorize("isAuthenticated()")
-    List<UserInfo> findAll();
 }
