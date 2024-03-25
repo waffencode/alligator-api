@@ -51,6 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtService.pareseUsername(jwt);
 
                 User user = userService.loadFromDatabase(username);
+                logger.log(Level.INFO, "found user " + user.getUsername());
                 Long userId = user.getId();
                 List<GrantedAuthority> authorities = loadRolesFromDataBase(user);
 

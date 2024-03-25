@@ -1,17 +1,27 @@
 package com.alligator.alligatorapi.configuration.security;
 
+import com.alligator.alligatorapi.dto.response.ExceptionResponse;
+import com.alligator.alligatorapi.entity.enums.RoleNames;
+import com.alligator.alligatorapi.entity.user.Role;
+import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.repository.user.RoleRepository;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.management.relation.RoleResult;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -28,6 +38,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfiguration {
     private final JwtService jwtService;
     private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,24 +53,37 @@ public class SecurityConfiguration {
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/whoami").authenticated()
 
-                        // By default, admin has full access to project data
-                        .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
+                                // But all users have Read-only access
+                                .requestMatchers(HttpMethod.GET, "/**").authenticated()
 
-                        // But all users have Read-only access
-                        .requestMatchers(HttpMethod.GET, "/**").authenticated()
+                                // Business analytics have full project-backlog control
+                                .requestMatchers(
+                                        "/tasks/**",
+                                        "/deadlines/**",
+                                        "/taskDependencies/**").hasAuthority("ROLE_BUSINESS_ANALYTIC")
 
-                        // Business analytics have full project-backlog control
-                        .requestMatchers(
-                                "/tasks/**",
-                                "/deadlines/**",
-                                "/taskDependencies/**").hasAuthority("ROLE_BUSINESS_ANALYTIC")
+                                // By default, admin has full access to project data
+                                .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
 
-                        // Rest endpoints have custom mostly team-based logic
+                                // Rest endpoints have custom mostly team-based logic
                 );
 
         return http.build();
+    }
+
+    @PostConstruct
+    private void initAdmin() {
+        if(!userService.exists("admin")) {
+            User user = new User();
+            user.setUsername("admin");
+            user.setPassword("password");
+
+            User createdUser = userService.saveToDatabase(user);
+            roleRepository.save(new Role(null, RoleNames.ROLE_ADMIN, createdUser));
+        }
     }
 }

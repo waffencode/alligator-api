@@ -2,6 +2,7 @@ package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.entity.user.Role;
 import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
 import com.alligator.alligatorapi.repository.user.RoleRepository;
@@ -50,5 +51,16 @@ public class UserService {
     public boolean isPasswordCorrect(String username, String password) throws UsernameNotFoundException {
         User databaseUser = loadFromDatabase(username);
         return encoder.matches(password, databaseUser.getPassword());
+    }
+
+    public void changePassword(String username, String oldPassword, String newPassword) throws UsernameNotFoundException, PasswordDoesntMatchesException {
+        User user = loadFromDatabase(username);
+
+        if(!isPasswordCorrect(username, oldPassword))
+            throw new PasswordDoesntMatchesException();
+
+        user.setPassword(encoder.encode(newPassword));
+
+        userRepository.save(user);
     }
 }

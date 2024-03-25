@@ -1,6 +1,8 @@
 package com.alligator.alligatorapi.controller;
 
+import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
 import com.alligator.alligatorapi.dto.request.AuthenticationRequest;
+import com.alligator.alligatorapi.dto.request.PasswordChangeRequest;
 import com.alligator.alligatorapi.dto.request.RegistrationRequest;
 import com.alligator.alligatorapi.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.dto.response.WhoamiResponse;
@@ -10,11 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.exception.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Map;
 
@@ -71,20 +76,35 @@ public class AuthenticationController {
         }
     }
 
+    @PostMapping(path = "/changePassword")
+    public ResponseEntity<?> changePassword(PasswordChangeRequest request) {
+        String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.changePassword(principalUsername,
+                request.getOldPassword(),
+                request.getNewPassword());
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping(path = "/whoami")
-    public ResponseEntity<WhoamiResponse> whoami() {
+    public ResponseEntity<WhoamiResponse> whoami() throws AccessDeniedException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Long id = (Long)((Map<String, Object>)auth.getDetails()).get("id");
-        List<String> roles = auth.getAuthorities().stream()
-                .map(Object::toString)
-                .toList();
+        if(auth.getDetails() instanceof AuthenticationUserDetails details) {
+            Long id = details.getId();
+            List<String> roles = auth.getAuthorities().stream()
+                    .map(Object::toString)
+                    .toList();
 
-        WhoamiResponse response = new WhoamiResponse();
-        response.setId(id);
-        response.setUsername(username);
-        response.setRoles(roles);
+            WhoamiResponse response = new WhoamiResponse();
+            response.setId(id);
+            response.setUsername(username);
+            response.setRoles(roles);
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } else {
+            throw new AccessDeniedException("Failed to parse id from principal details.");
+        }
     }
 }

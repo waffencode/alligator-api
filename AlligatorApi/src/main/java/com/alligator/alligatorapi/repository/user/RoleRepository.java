@@ -7,7 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
+
+// TODO: переделать модель на передфайнд роли + список ролей юзеров вместо сырого ролевого использования
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    @PreAuthorize("isAuthenticated()")
     List<Role> findAllByUser(User user);
 }
