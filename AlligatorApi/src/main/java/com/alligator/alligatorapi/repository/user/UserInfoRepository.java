@@ -5,8 +5,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     @Override
     @PreAuthorize("@securityService.validateUsernameSameAsPrincipal(#userInfo.user.username)")
     UserInfo save(@Param("userInfo") UserInfo userInfo);
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    Optional<UserInfo> findById(Long aLong);
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    List<UserInfo> findAll();
 }
