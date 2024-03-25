@@ -23,6 +23,10 @@ public class Sprint {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @ManyToOne
+    @JoinColumn(name = "scrum_master_id")
+    private TeamMember scrumMaster;
+
     private Timestamp startTime;
     private Timestamp endTime;
     private Long sp;

@@ -1,5 +1,6 @@
 package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,10 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "team_lead_id")
+    private User teamLead;
 
     private String name;
 }
