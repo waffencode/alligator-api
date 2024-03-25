@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public interface RoleRepository extends JpaRepository<Role, Long> {
     @PreAuthorize("isAuthenticated()")
     List<Role> findAllByUser(User user);
