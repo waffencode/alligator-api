@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.repository.sprint;
+package com.alligator.alligatorapi.repository.team;
 
 import com.alligator.alligatorapi.entity.sprint.Team;
 import org.springframework.data.jpa.repository.JpaRepository;

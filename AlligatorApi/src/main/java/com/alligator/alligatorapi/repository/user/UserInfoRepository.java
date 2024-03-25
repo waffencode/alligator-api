@@ -10,6 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
-    @PreAuthorize("@securityService.validateUsernameSameAsPrincipal(#userInfo.user.username)")
-    <S extends UserInfo> S save(@Param("userInfo") S userInfo);
+    @PreAuthorize("@securityService.validateUsernameSameAsPrincipal(userInfo.user.username)")
+    <S extends UserInfo> S save(S userInfo);
 }

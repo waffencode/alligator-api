@@ -11,16 +11,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sprint_task_required_roles")
-public class SprintTaskRequiredRoles {
+@Table(name = "team_member_roles")
+public class TeamMemberRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "task_id")
-    private SprintTask task;
+    @JoinColumn(name = "team_member_id")
+    private TeamMember teamMember;
+
     @ManyToOne
     @JoinColumn(name = "team_role_id")
     private TeamRole role;

@@ -9,11 +9,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+/**
+ * Admin has full access to project data. <br><br>
+ * All users have Read-only access to any data. <br><br>
+ * Business analytics have full project-backlog control. <br><br>
+ * Rest endpoints have custom (mostly team-based) security logic, defined on repositories. <br><br>
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -25,10 +32,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable());
+                .csrf(AbstractHttpConfigurer::disable);
 
         http
-                .cors(cors -> cors.disable());
+                .cors(AbstractHttpConfigurer::disable);
 
         http
                 .addFilterBefore(new JwtFilter(jwtService, userService), BasicAuthenticationFilter.class);
@@ -38,14 +45,19 @@ public class SecurityConfiguration {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
 
+                        // By default, admin has full access to project data
+                        .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
+
+                        // But all users have Read-only access
+                        .requestMatchers(HttpMethod.GET, "/**").authenticated()
+
+                        // Business analytics have full project-backlog control
                         .requestMatchers(
                                 "/tasks/**",
                                 "/deadlines/**",
                                 "/taskDependencies/**").hasAuthority("ROLE_BUSINESS_ANALYTIC")
-                        .requestMatchers(HttpMethod.GET,
-                                "/tasks/**",
-                                "/deadlines/**",
-                                "/taskDependencies/**").authenticated()
+
+                        // Rest endpoints have custom mostly team-based logic
                 );
 
         return http.build();
