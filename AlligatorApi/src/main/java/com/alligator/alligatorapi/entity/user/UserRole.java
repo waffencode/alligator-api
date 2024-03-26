@@ -1,28 +1,30 @@
 package com.alligator.alligatorapi.entity.user;
 
-import com.alligator.alligatorapi.entity.enums.RoleNames;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "roles")
-public class Role {
+@Table(name = "user_roles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "role_id"})
+})
+public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(unique = true, updatable = false)
-    private RoleNames name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

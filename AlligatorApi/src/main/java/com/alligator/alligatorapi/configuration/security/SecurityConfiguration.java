@@ -74,16 +74,4 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
-    @PostConstruct
-    private void initAdmin() {
-        if(!userService.exists("admin")) {
-            User user = new User();
-            user.setUsername("admin");
-            user.setPassword("password");
-
-            User createdUser = userService.saveToDatabase(user);
-            roleRepository.save(new Role(null, RoleNames.ROLE_ADMIN, createdUser));
-        }
-    }
 }

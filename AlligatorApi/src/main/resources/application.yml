@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://194.87.234.28:5432/alligator
+    url: jdbc:postgresql://db:5432/alligator
     username: postgres
     password: 1234
   jpa:

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  java-application:
+    image: openjdk:21
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../AlligatorApi/target:/usr/src/myapp
+    working_dir: /usr/src/myapp
+    command: java -jar AlligatorApi-0.0.1-SNAPSHOT.jar
+    depends_on:
+      - db
+    networks:
+      - internal
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: alligator
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
