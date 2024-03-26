@@ -53,6 +53,8 @@ public class SecurityConfiguration {
 
         http
                 .authorizeHttpRequests((requests) -> requests
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/whoami").authenticated()

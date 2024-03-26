@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +57,8 @@ public class UserService {
         try {
             return encoder.matches(password, databaseUser.getPassword());
         } catch (IllegalArgumentException e) {
-            throw new PasswordDoesntMatchesException();
+            Logger.getLogger(UserService.class.getName()).warning("Encoder got null raw password!");
+            return false;
         }
     }
 
