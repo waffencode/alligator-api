@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
 public class SecurityService {
@@ -24,6 +25,8 @@ public class SecurityService {
 
     public Boolean validatePrincipalIsTeamLeadOfTeam(Team team) throws AccessDeniedException {
         Long userId = getPrincipalId();
+
+        Logger.getLogger(SecurityService.class.getName()).info("Validating user with id " + userId);
 
         if(!Objects.equals(team.getTeamLead().getId(), userId))
             throw new AccessDeniedException("User is not team lead of team " + team.getName());
