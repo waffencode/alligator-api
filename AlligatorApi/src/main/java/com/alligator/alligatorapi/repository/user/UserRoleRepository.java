@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
+
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
     @PreAuthorize("hasRole('ADMIN')")
     <S extends UserRole> S save(S UserRole);

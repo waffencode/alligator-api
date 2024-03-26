@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 import javax.management.relation.RoleResult;
 
@@ -59,7 +60,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/whoami").authenticated()
 
-                                // But all users have Read-only access
+                                // All users have Read-only access
                                 .requestMatchers(HttpMethod.GET, "/**").authenticated()
 
                                 // Business analytics have full project-backlog control
@@ -68,10 +69,12 @@ public class SecurityConfiguration {
                                         "/deadlines/**",
                                         "/taskDependencies/**").hasAuthority("ROLE_BUSINESS_ANALYTIC")
 
-                                // By default, admin has full access to project data
-                                .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
+                                // all other requests will be validated on endpoints (in repositories)
+                                .requestMatchers("/**").authenticated()
 
-                                // Rest endpoints have custom mostly team-based logic
+                                /*
+                                TODO: Ну.. Опять переписывать секьюр - надо дописать метод/интерфейс секьюр для всех репозиториев
+                                 */
                 );
 
         return http.build();
