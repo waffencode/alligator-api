@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.alligator</groupId>
-    <artifactId>AlligatorApi</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>AlligatorApplication</artifactId>
+    <version>0.1.0</version>
     <name>AlligatorApi</name>
     <description>AlligatorApi</description>
     <properties>
@@ -86,6 +86,7 @@
     </dependencies>
 
     <build>
+        <finalName>AlligatorApplication</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

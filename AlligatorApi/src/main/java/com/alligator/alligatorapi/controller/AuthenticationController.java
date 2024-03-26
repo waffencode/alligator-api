@@ -77,7 +77,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "/changePassword")
-    public ResponseEntity<?> changePassword(PasswordChangeRequest request) {
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequest request) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         userService.changePassword(principalUsername,

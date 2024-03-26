@@ -17,4 +17,6 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
     <S extends UserRole> List<S> saveAll(Iterable<S> UserRole);
 
     <S extends UserRole> List<S> findAllByUser(User user);
+
+    boolean existsByUserAndRole(User admin, Role roleAdmin);
 }

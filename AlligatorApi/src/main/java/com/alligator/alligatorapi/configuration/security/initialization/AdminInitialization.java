@@ -30,19 +30,22 @@ public class AdminInitialization {
     @PostConstruct
     public void init() {
         try {
-
-
             setTemporarySecurityContext();
 
             User admin = userService.exists("admin") ?
-                    userService.loadFromDatabase("admin") : userService.saveToDatabase(new User(null, "admin", "password"));
+                    userService.loadFromDatabase("admin") :
+                    userService.saveToDatabase(new User(null, "admin", "password"));
+
             Role roleAdmin = roleRepository.findByName(RoleNames.ROLE_ADMIN);
 
-            UserRole adminRole = new UserRole();
-            adminRole.setUser(admin);
-            adminRole.setRole(roleAdmin);
+            if(!userRoleRepository.existsByUserAndRole(admin, roleAdmin)) {
+                UserRole adminRole = new UserRole();
+                adminRole.setUser(admin);
+                adminRole.setRole(roleAdmin);
+                userRoleRepository.save(adminRole);
 
-            userRoleRepository.save(adminRole);
+            }
+
         } finally {
             clearSecurityContext();
         }

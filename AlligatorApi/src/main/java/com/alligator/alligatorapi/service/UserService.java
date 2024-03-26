@@ -52,7 +52,12 @@ public class UserService {
 
     public boolean isPasswordCorrect(String username, String password) throws UsernameNotFoundException {
         User databaseUser = loadFromDatabase(username);
-        return encoder.matches(password, databaseUser.getPassword());
+
+        try {
+            return encoder.matches(password, databaseUser.getPassword());
+        } catch (IllegalArgumentException e) {
+            throw new PasswordDoesntMatchesException();
+        }
     }
 
     public void changePassword(String username, String oldPassword, String newPassword) throws UsernameNotFoundException, PasswordDoesntMatchesException {
