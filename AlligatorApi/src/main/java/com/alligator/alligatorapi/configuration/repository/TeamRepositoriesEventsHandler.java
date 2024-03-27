@@ -24,4 +24,8 @@ public class TeamRepositoriesEventsHandler {
         Logger.getLogger(TeamRepositoriesEventsHandler.class.getName())
                 .info("CREATE and SAVE: User with role ADMIN? "+ securityService.hasRole(RoleNames.ADMIN));
     }
+
+    //TODO: Обновить модель - продумать как будет производиться работа с удалением команд и других сущностей
+    // 1 (?):   разрешить удаление всем кто может создавать сущности, но при этом не добавить различные состояния
+    //          акутальности данных. Пример: команда устарела, член команды вышел из команды... тд
 }
