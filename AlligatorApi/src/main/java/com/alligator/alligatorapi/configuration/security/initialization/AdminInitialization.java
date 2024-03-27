@@ -36,7 +36,7 @@ public class AdminInitialization {
                     userService.loadFromDatabase("admin") :
                     userService.saveToDatabase(new User(null, "admin", "password"));
 
-            Role roleAdmin = roleRepository.findByName(RoleNames.ROLE_ADMIN);
+            Role roleAdmin = roleRepository.findByName(RoleNames.ADMIN);
 
             if(!userRoleRepository.existsByUserAndRole(admin, roleAdmin)) {
                 UserRole adminRole = new UserRole();

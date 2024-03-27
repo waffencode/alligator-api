@@ -23,6 +23,6 @@ public class Role {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, updatable = false)
+    @Column(unique = true)
     private RoleNames name;
 }
