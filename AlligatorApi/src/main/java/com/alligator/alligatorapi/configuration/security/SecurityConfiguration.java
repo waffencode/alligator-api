@@ -1,28 +1,19 @@
 package com.alligator.alligatorapi.configuration.security;
 
-import com.alligator.alligatorapi.dto.response.ExceptionResponse;
-import com.alligator.alligatorapi.entity.enums.RoleNames;
-import com.alligator.alligatorapi.entity.user.Role;
-import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.entity.enums.RoleName;
 import com.alligator.alligatorapi.repository.user.RoleRepository;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-
-import javax.management.relation.RoleResult;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -67,7 +58,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(
                                         "/tasks/**",
                                         "/deadlines/**",
-                                        "/taskDependencies/**").hasRole(RoleNames.BUSINESS_ANALYTIC.name())
+                                        "/taskDependencies/**").hasRole(RoleName.BUSINESS_ANALYTIC.name())
 
                                 // all other requests will be validated on endpoints (in repositories)
                                 .requestMatchers("/**").authenticated()

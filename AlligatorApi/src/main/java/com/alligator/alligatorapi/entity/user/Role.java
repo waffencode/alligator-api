@@ -1,13 +1,12 @@
 package com.alligator.alligatorapi.entity.user;
 
-import com.alligator.alligatorapi.entity.enums.RoleNames;
+import com.alligator.alligatorapi.entity.enums.RoleName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @NoArgsConstructor
@@ -24,5 +23,5 @@ public class Role {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
-    private RoleNames name;
+    private RoleName name;
 }

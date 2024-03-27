@@ -1,6 +1,6 @@
 package com.alligator.alligatorapi.configuration.security.initialization;
 
-import com.alligator.alligatorapi.entity.enums.RoleNames;
+import com.alligator.alligatorapi.entity.enums.RoleName;
 import com.alligator.alligatorapi.entity.user.Role;
 import com.alligator.alligatorapi.repository.user.RoleRepository;
 import jakarta.annotation.PostConstruct;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * Iterates over {@link RoleNames} and creates roles, if not exists
+ * Iterates over {@link RoleName} and creates roles, if not exists
  */
 @Component
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ public class RolesInitialization {
 
     @PostConstruct
     public void init() {
-        for (RoleNames roleName : RoleNames.values()) {
+        for (RoleName roleName : RoleName.values()) {
             boolean roleExists = roleRepository.existsByName(roleName);
             if (!roleExists) {
                 Role role = new Role();
