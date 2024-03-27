@@ -7,10 +7,4 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
-public interface SprintTaskRepository extends JpaRepository<SprintTask, Long> {
-    @PreAuthorize("@securityService.validatePrincipalIsScrumMasterOfSprint(sprintTask.sprint)")
-    <S extends SprintTask> S save(S sprintTask);
-
-    @PreAuthorize("false")
-    <S extends SprintTask> List<S> saveAll(Iterable<S> sprintTask);
-}
+public interface SprintTaskRepository extends JpaRepository<SprintTask, Long> {}

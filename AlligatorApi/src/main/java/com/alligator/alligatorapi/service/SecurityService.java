@@ -43,6 +43,7 @@ public class SecurityService {
         return true;
     }
 
+
     public Long getPrincipalId() throws AccessDeniedException {
         Object principalDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
 
@@ -52,4 +53,5 @@ public class SecurityService {
             throw new AccessDeniedException("Failed to parse id from principal details.");
         }
     }
+
 }

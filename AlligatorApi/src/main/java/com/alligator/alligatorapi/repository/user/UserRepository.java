@@ -10,9 +10,6 @@ import java.util.Optional;
 
 // TODO: think about user changes
 public interface UserRepository extends JpaRepository<User, Long> {
-    @PreAuthorize("false")
-    <S extends User> List<S> saveAll(Iterable<S> User);
-    
     Optional<User> findByUsername(String username);
 
     Boolean existsByUsername(String username);

@@ -9,9 +9,4 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
-    @PreAuthorize("@securityService.validatePrincipalIsTeamLeadOfTeam(member.team)")
-    <S extends TeamMember> S save(S member);
-
-    @PreAuthorize("false")
-    <S extends TeamMember> List<S> saveAll(Iterable<S> teamMembers);
 }

@@ -11,12 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    @RestResource(exported = false)
-    <S extends Role> S save(S role);
-    @RestResource(exported = false)
-
-    <S extends Role> List<S> saveAll(Iterable<S> roles);
-
     boolean existsByName(RoleNames roleName);
 
     Role findByName(RoleNames roleNames);

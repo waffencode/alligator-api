@@ -11,12 +11,6 @@ import java.util.List;
 
 
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
-    @PreAuthorize("hasRole('ADMIN')")
-    <S extends UserRole> S save(S UserRole);
-
-    @PreAuthorize("false")
-    <S extends UserRole> List<S> saveAll(Iterable<S> UserRole);
-
     <S extends UserRole> List<S> findAllByUser(User user);
 
     boolean existsByUserAndRole(User admin, Role roleAdmin);
