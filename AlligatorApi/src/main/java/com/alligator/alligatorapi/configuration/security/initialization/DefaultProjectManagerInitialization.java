@@ -1,6 +1,7 @@
 package com.alligator.alligatorapi.configuration.security.initialization;
 
 import com.alligator.alligatorapi.entity.enums.RoleNames;
+import com.alligator.alligatorapi.entity.enums.UserState;
 import com.alligator.alligatorapi.entity.user.Role;
 import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.entity.user.UserRole;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @DependsOn("rolesInitialization")
-public class AdminInitialization {
+public class DefaultProjectManagerInitialization {
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
@@ -32,11 +33,11 @@ public class AdminInitialization {
         try {
             setTemporarySecurityContext();
 
-            User admin = userService.exists("admin") ?
-                    userService.loadFromDatabase("admin") :
-                    userService.saveToDatabase(new User(null, "admin", "password"));
+            User admin = userService.exists("pm") ?
+                    userService.loadFromDatabase("pm") :
+                    userService.saveToDatabase(new User(null, "pm", "password", UserState.ACTIVE));
 
-            Role roleAdmin = roleRepository.findByName(RoleNames.ADMIN);
+            Role roleAdmin = roleRepository.findByName(RoleNames.PROJECT_MANAGER);
 
             if(!userRoleRepository.existsByUserAndRole(admin, roleAdmin)) {
                 UserRole adminRole = new UserRole();

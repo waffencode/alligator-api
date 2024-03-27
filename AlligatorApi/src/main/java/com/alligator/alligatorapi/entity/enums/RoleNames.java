@@ -1,7 +1,7 @@
 package com.alligator.alligatorapi.entity.enums;
 
 public enum RoleNames {
-    ADMIN,
+    PROJECT_MANAGER,
     BUSINESS_ANALYTIC,
-    WORKER
+    USER
 }

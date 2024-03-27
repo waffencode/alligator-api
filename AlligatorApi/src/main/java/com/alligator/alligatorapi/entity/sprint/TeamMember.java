@@ -1,5 +1,6 @@
 package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.enums.UserState;
 import com.alligator.alligatorapi.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,4 +27,7 @@ public class TeamMember {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private UserState state;
 }

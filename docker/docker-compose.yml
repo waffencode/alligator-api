@@ -13,6 +13,7 @@ services:
       - db
     networks:
       - internal
+    restart: always
 
   db:
     image: postgres:latest

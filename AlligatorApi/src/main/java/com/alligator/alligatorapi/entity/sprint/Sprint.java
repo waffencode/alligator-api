@@ -1,5 +1,6 @@
 package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.enums.SprintState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,7 @@ public class Sprint {
     private Timestamp startTime;
     private Timestamp endTime;
     private Long sp;
+
+    @Enumerated(EnumType.STRING)
+    private SprintState state;
 }

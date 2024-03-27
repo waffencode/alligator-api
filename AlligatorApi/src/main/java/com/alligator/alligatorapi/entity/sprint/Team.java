@@ -1,5 +1,6 @@
 package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.enums.TeamState;
 import com.alligator.alligatorapi.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,4 +24,7 @@ public class Team {
     private User teamLead;
 
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private TeamState state;
 }
