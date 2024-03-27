@@ -1,10 +1,10 @@
 package com.alligator.alligatorapi.configuration.repository;
 
 import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.entity.sprint.Team;
-import com.alligator.alligatorapi.entity.sprint.TeamMember;
-import com.alligator.alligatorapi.entity.sprint.TeamMemberRole;
-import com.alligator.alligatorapi.entity.sprint.TeamRole;
+import com.alligator.alligatorapi.entity.team.Team;
+import com.alligator.alligatorapi.entity.team.TeamMember;
+import com.alligator.alligatorapi.entity.team.TeamMemberRole;
+import com.alligator.alligatorapi.entity.team.TeamRole;
 import com.alligator.alligatorapi.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.annotation.*;
@@ -64,6 +64,12 @@ public class TeamRepositoriesEventsHandler {
     2) его изменяет тимлид
         - INACTIVE -> ACTIVE - если пользователь был INACTIVE, делаем ACTIVE
         - ACTIVE -> INACTIVE - ни на что не влияет
-     */
 
+    С другой стороны может ну его нахуй. Просто Убрать состояние юзера как таковое, и оставить только непосредственно
+    состояние члена команды. Завтра думать буду
+
+     */
+    public void handleTeamMemberSave(TeamMember teamMember) throws AccessDeniedException {
+
+    }
 }

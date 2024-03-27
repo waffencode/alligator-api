@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity.sprint;
+package com.alligator.alligatorapi.entity.team;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "team_member_roles")
+@Table(name = "team_member_roles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"team_member_id", "team_role_id"})
+})
 public class TeamMemberRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity.sprint;
+package com.alligator.alligatorapi.entity.team;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

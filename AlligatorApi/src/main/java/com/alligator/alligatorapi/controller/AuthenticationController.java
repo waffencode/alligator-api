@@ -6,6 +6,7 @@ import com.alligator.alligatorapi.dto.request.PasswordChangeRequest;
 import com.alligator.alligatorapi.dto.request.RegistrationRequest;
 import com.alligator.alligatorapi.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.dto.response.WhoamiResponse;
+import com.alligator.alligatorapi.entity.enums.UserState;
 import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,8 @@ public class AuthenticationController {
         User user = new User(
                 null,
                 request.getUsername(),
-                request.getPassword()
+                request.getPassword(),
+                UserState.ACTIVE
         );
 
         User savedUser = userService.saveToDatabase(user);

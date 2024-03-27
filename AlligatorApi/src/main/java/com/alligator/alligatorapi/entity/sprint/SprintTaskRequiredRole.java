@@ -1,5 +1,6 @@
 package com.alligator.alligatorapi.entity.sprint;
 
+import com.alligator.alligatorapi.entity.team.TeamRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

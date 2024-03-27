@@ -1,7 +1,6 @@
 package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.entity.sprint.AssignedTask;
-import com.alligator.alligatorapi.entity.sprint.TeamMember;
 import com.alligator.alligatorapi.repository.sprint.SprintTaskRepository;
 import com.alligator.alligatorapi.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;

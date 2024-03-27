@@ -25,6 +25,7 @@ services:
       - ./postgres:/var/lib/postgresql/data
     networks:
       - internal
+    restart: always
 
 networks:
   internal:

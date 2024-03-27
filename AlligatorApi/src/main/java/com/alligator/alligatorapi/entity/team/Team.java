@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity.sprint;
+package com.alligator.alligatorapi.entity.team;
 
 import com.alligator.alligatorapi.entity.enums.TeamState;
 import com.alligator.alligatorapi.entity.user.User;

@@ -3,7 +3,7 @@ package com.alligator.alligatorapi.service;
 import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
 import com.alligator.alligatorapi.entity.enums.RoleName;
 import com.alligator.alligatorapi.entity.sprint.Sprint;
-import com.alligator.alligatorapi.entity.sprint.Team;
+import com.alligator.alligatorapi.entity.team.Team;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

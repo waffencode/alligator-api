@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.entity.sprint;
+package com.alligator.alligatorapi.entity.team;
 
 import com.alligator.alligatorapi.entity.enums.UserState;
 import com.alligator.alligatorapi.entity.user.User;
@@ -13,7 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "team_members")
+@Table(name = "team_members", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"team_id", "user_id"})
+})
 public class TeamMember {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
