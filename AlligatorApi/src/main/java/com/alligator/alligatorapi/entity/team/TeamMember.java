@@ -1,6 +1,6 @@
 package com.alligator.alligatorapi.entity.team;
 
-import com.alligator.alligatorapi.entity.enums.UserState;
+import com.alligator.alligatorapi.entity.enums.TeamMemberState;
 import com.alligator.alligatorapi.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,5 +31,5 @@ public class TeamMember {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    private UserState state;
+    private TeamMemberState state;
 }

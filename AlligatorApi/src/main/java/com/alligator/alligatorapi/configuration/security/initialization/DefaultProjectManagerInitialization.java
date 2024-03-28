@@ -1,7 +1,6 @@
 package com.alligator.alligatorapi.configuration.security.initialization;
 
 import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.entity.enums.UserState;
 import com.alligator.alligatorapi.entity.user.Role;
 import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.entity.user.UserRole;
@@ -35,7 +34,7 @@ public class DefaultProjectManagerInitialization {
 
             User admin = userService.exists("pm") ?
                     userService.loadFromDatabase("pm") :
-                    userService.saveToDatabase(new User(null, "pm", "password", UserState.ACTIVE));
+                    userService.saveToDatabase(new User(null, "pm", "password"));
 
             Role roleAdmin = roleRepository.findByName(RoleName.PROJECT_MANAGER);
 

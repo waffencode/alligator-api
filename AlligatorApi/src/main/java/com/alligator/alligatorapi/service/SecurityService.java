@@ -15,13 +15,10 @@ import java.util.logging.Logger;
 
 @Service
 public class SecurityService {
-    public Boolean validateUsernameSameAsPrincipal(String name) throws AccessDeniedException {
+    public Boolean isUsernameSameAsPrincipal(String name) throws AccessDeniedException {
         String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if(!name.equals(principalName))
-            throw new AccessDeniedException("Name " + name + " failed validation for rights check on this method");
-
-        return true;
+        return name.equals(principalName);
     }
 
     public Boolean isPrincipalIsTeamLeadOfTeam(Team team) throws AccessDeniedException {

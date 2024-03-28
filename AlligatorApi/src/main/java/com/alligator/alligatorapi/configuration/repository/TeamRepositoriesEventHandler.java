@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RepositoryEventHandler
 @RequiredArgsConstructor
-public class TeamRepositoriesEventsHandler {
+public class TeamRepositoriesEventHandler {
     private final SecurityService securityService;
 
     @HandleBeforeCreate

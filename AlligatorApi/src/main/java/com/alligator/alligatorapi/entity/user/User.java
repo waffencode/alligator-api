@@ -1,6 +1,5 @@
 package com.alligator.alligatorapi.entity.user;
 
-import com.alligator.alligatorapi.entity.enums.UserState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +20,4 @@ public class User {
 
     private String username;
     private String password;
-
-    @Enumerated(EnumType.STRING)
-    private UserState state;
 }

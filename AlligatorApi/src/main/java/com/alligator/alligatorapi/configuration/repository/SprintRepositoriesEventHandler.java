@@ -1,8 +1,6 @@
 package com.alligator.alligatorapi.configuration.repository;
 
-import com.alligator.alligatorapi.entity.sprint.Sprint;
-import com.alligator.alligatorapi.entity.sprint.SprintTask;
-import com.alligator.alligatorapi.entity.sprint.SprintTaskRole;
+import com.alligator.alligatorapi.entity.sprint.*;
 import com.alligator.alligatorapi.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.annotation.*;
@@ -14,7 +12,7 @@ import java.nio.file.AccessDeniedException;
 @RepositoryEventHandler
 @RequiredArgsConstructor
 @Component
-public class SprintRepositoriesEventsHandler {
+public class SprintRepositoriesEventHandler {
     private final SecurityService securityService;
 
     @HandleBeforeCreate
@@ -45,5 +43,13 @@ public class SprintRepositoriesEventsHandler {
     public void handleSprintTaskRole(SprintTaskRole sprintTaskRole) throws AccessDeniedException {
         if(!securityService.isPrincipalIsScrumMasterOfSprint(sprintTaskRole.getTask().getSprint()))
             throw new AccessDeniedException(STR . "Only scrum-master (User \{sprintTaskRole.getTask().getSprint().getScrumMaster().getUser().getUsername()}) can manage sprint tasks");
+    }
+
+    public void handleAssignedTask(AssignedTask assignedTask) throws AccessDeniedException {
+        // TODO: think how that will work!
+    }
+
+    public void handleTaskSwapRequest(TaskSwapRequest taskSwapRequest) throws AccessDeniedException {
+        // TODO: think how that will work!
     }
 }

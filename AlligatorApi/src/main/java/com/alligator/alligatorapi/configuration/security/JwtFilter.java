@@ -66,7 +66,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                logger.log(Level.INFO, "User " + authentication.toString() + " request to " + requestUri + " authenticated successfully.");
+                logger.log(Level.INFO, "User " + authentication + " request to " + requestUri + " authenticated successfully.");
 
                 chain.doFilter(request, response);
                 return;

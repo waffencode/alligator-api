@@ -6,23 +6,20 @@ import com.alligator.alligatorapi.dto.request.PasswordChangeRequest;
 import com.alligator.alligatorapi.dto.request.RegistrationRequest;
 import com.alligator.alligatorapi.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.dto.response.WhoamiResponse;
-import com.alligator.alligatorapi.entity.enums.UserState;
+import com.alligator.alligatorapi.entity.enums.TeamMemberState;
 import com.alligator.alligatorapi.entity.user.User;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.exception.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -50,8 +47,7 @@ public class AuthenticationController {
         User user = new User(
                 null,
                 request.getUsername(),
-                request.getPassword(),
-                UserState.ACTIVE
+                request.getPassword()
         );
 
         User savedUser = userService.saveToDatabase(user);
