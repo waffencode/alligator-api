@@ -12,7 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sprint_tasks")
+@Table(name = "sprint_tasks", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"sprint_id", "task_id"})
+})
 public class SprintTask {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

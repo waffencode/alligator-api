@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "sprint_task_required_roles")
-public class SprintTaskRequiredRole {
+@Table(name = "sprint_task_roles")
+public class SprintTaskRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)

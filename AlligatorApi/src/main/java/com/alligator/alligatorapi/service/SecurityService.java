@@ -32,13 +32,10 @@ public class SecurityService {
         return !Objects.equals(team.getTeamLead().getId(), userId);
     }
 
-    public Boolean validatePrincipalIsScrumMasterOfSprint(Sprint sprint) throws AccessDeniedException {
+    public Boolean isPrincipalIsScrumMasterOfSprint(Sprint sprint) throws AccessDeniedException {
         Long userId = getPrincipalId();
 
-        if(!Objects.equals(sprint.getScrumMaster().getId(), userId))
-            throw new AccessDeniedException("User is not scrum-master of sprint id == " + sprint.getId());
-
-        return true;
+        return Objects.equals(sprint.getScrumMaster().getId(), userId);
     }
 
 

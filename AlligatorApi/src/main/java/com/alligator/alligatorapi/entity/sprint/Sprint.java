@@ -3,6 +3,7 @@ package com.alligator.alligatorapi.entity.sprint;
 import com.alligator.alligatorapi.entity.enums.SprintState;
 import com.alligator.alligatorapi.entity.team.Team;
 import com.alligator.alligatorapi.entity.team.TeamMember;
+import com.alligator.alligatorapi.postprocessing.annotations.NotNullFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

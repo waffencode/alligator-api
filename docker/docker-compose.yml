@@ -8,7 +8,7 @@ services:
     volumes:
       - ../AlligatorApi/target:/usr/src/myapp
     working_dir: /usr/src/myapp
-    command: java -jar AlligatorApplication.jar
+    command: java --enable-preview -jar AlligatorApplication.jar
     depends_on:
       - db
     networks:
@@ -17,6 +17,8 @@ services:
 
   db:
     image: postgres:latest
+    ports:
+      - "8001:5432"
     environment:
       POSTGRES_DB: alligator
       POSTGRES_USER: postgres
@@ -25,7 +27,6 @@ services:
       - ./postgres:/var/lib/postgresql/data
     networks:
       - internal
-    restart: always
 
 networks:
   internal:
