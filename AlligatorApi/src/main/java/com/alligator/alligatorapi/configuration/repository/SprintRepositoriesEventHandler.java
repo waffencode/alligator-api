@@ -19,7 +19,7 @@ public class SprintRepositoriesEventHandler {
     @HandleBeforeDelete
     public void handleSprintCreateDelete(Sprint sprint) throws AccessDeniedException {
         if(!securityService.isPrincipalIsTeamLeadOfTeam(sprint.getTeam()))
-            throw new AccessDeniedException("Only team lead of team " + sprint.getTeam().getName() + " can create/delete sprints");
+            throw new AccessDeniedException(STR . "Only team lead of team \{sprint.getTeam().getName()} can create/delete sprints");
     }
 
     @HandleBeforeSave
