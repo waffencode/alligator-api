@@ -2,26 +2,43 @@ package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
 import com.alligator.alligatorapi.entity.enums.RoleName;
+import com.alligator.alligatorapi.entity.enums.TaskState;
 import com.alligator.alligatorapi.entity.sprint.Sprint;
+import com.alligator.alligatorapi.entity.sprint.SprintTask;
+import com.alligator.alligatorapi.entity.sprint.TaskSwapRequest;
 import com.alligator.alligatorapi.entity.team.Team;
+import com.alligator.alligatorapi.entity.team.TeamMember;
+import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.repository.sprint.AssignedTaskRepository;
+import com.alligator.alligatorapi.repository.team.TeamMemberRepository;
+import com.alligator.alligatorapi.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@RequiredArgsConstructor
 public class SecurityService {
-    public Boolean isUsernameSameAsPrincipal(String name) throws AccessDeniedException {
-        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
+    private final TeamMemberRepository teamMemberRepository;
+    private final UserRepository userRepository;
+    private final AssignedTaskRepository assignedTaskRepository;
+
+    public Boolean isUsernameSameAsPrincipal(String name) {
+        String principalName = getPrincipalUsername();
 
         return name.equals(principalName);
     }
 
-    public Boolean isPrincipalIsTeamLeadOfTeam(Team team) throws AccessDeniedException {
+    public Boolean isPrincipalIsTeamLeadOfTeam(Team team) {
         Long userId = getPrincipalId();
 
         Logger.getLogger(SecurityService.class.getName()).info("Validating user with id " + userId);
@@ -29,21 +46,48 @@ public class SecurityService {
         return !Objects.equals(team.getTeamLead().getId(), userId);
     }
 
-    public Boolean isPrincipalIsScrumMasterOfSprint(Sprint sprint) throws AccessDeniedException {
+    public Boolean isPrincipalIsScrumMasterOfSprint(Sprint sprint) {
         Long userId = getPrincipalId();
 
         return Objects.equals(sprint.getScrumMaster().getId(), userId);
     }
 
+    public Boolean isPrincipalTeamMemberOfTeam(Team team) {
+        Optional<User> principalUser = userRepository.findByUsername(getPrincipalUsername());
 
-    public Long getPrincipalId() throws AccessDeniedException {
+        if(principalUser.isEmpty())
+            throw new AccessDeniedException(STR . "User \{getPrincipalUsername()} is authenticated successful, but could be not found by username (WTF?????? Tell Ване)");
+
+        return teamMemberRepository.existsByTeamAndUser(team, principalUser.get());
+    }
+
+    public Boolean isTaskAssignedToPrincipal(SprintTask sprintTask) {
+        Optional<TeamMember> teamMemberMappedEntity = teamMemberRepository.findByUserId(getPrincipalId());
+
+        //noinspection OptionalIsPresent
+        if(teamMemberMappedEntity.isEmpty())
+            return false;
+
+        return assignedTaskRepository.existsByTaskAndTeamMember(sprintTask.getTask(), teamMemberMappedEntity.get());
+    }
+
+    public Long getPrincipalId() throws AuthenticationServiceException {
         Object principalDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
 
         if(principalDetails instanceof AuthenticationUserDetails authenticationUserDetails) {
             return authenticationUserDetails.getId();
         } else {
-            throw new AccessDeniedException("Failed to parse id from principal details.");
+            throw new AuthenticationServiceException("Failed to parse id from principal details.");
         }
+    }
+
+    public String getPrincipalUsername() throws AuthenticationServiceException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if(username == null)
+            throw new AuthenticationServiceException("Authentication exception: username is null!");
+
+        return username;
     }
 
     public Boolean hasRole(RoleName role) {

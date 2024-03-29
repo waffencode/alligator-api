@@ -1,6 +1,12 @@
 package com.alligator.alligatorapi.repository.sprint;
 
+import com.alligator.alligatorapi.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.entity.sprint.SprintTaskRole;
+import com.alligator.alligatorapi.entity.team.TeamRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SprintTaskRequiredRoleRepository extends JpaRepository<SprintTaskRole, Long> { }
+import java.util.List;
+
+public interface SprintTaskRequiredRoleRepository extends JpaRepository<SprintTaskRole, Long> {
+    List<SprintTaskRole> findByTask(SprintTask task);
+}

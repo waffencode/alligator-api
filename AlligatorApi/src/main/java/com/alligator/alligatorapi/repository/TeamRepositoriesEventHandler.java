@@ -1,4 +1,4 @@
-package com.alligator.alligatorapi.configuration.repository;
+package com.alligator.alligatorapi.repository;
 
 import com.alligator.alligatorapi.entity.enums.RoleName;
 import com.alligator.alligatorapi.entity.team.Team;
