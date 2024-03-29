@@ -1,5 +1,7 @@
 package com.alligator.alligatorapi.service;
 
+import com.alligator.alligatorapi.entity.sprint.AssignedTask;
+import com.alligator.alligatorapi.entity.sprint.Sprint;
 import com.alligator.alligatorapi.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.entity.sprint.SprintTaskRole;
 import com.alligator.alligatorapi.entity.team.TeamMember;
@@ -10,23 +12,17 @@ import com.alligator.alligatorapi.repository.team.TeamMemberRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class SprintService {
-    private final TeamMemberRoleRepository teamMemberRoleRepository;
-    private final SprintTaskRequiredRoleRepository sprintTaskRequiredRoleRepository;
+    
 
-    public Boolean teamMemberMeetsRequiredRolesForTask(TeamMember member, SprintTask task) {
-        List<TeamRole> requiredRoles = sprintTaskRequiredRoleRepository.findByTask(task).stream()
-                .map(SprintTaskRole::getRole).toList();
-
-        for(TeamRole role : requiredRoles) {
-            if(!teamMemberRoleRepository.existsByTeamMemberAndRole(member, role))
-                return false;
-        }
-
-        return true;
+    public List<AssignedTask> suggestTaskAssignation(Sprint sprint) {
+        Logger.getLogger(SprintService.class.getName()).info("This doesn't works yet...");
+        return new ArrayList<>();
     }
 }
