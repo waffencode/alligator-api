@@ -24,8 +24,6 @@ public class Task {
     @JoinColumn(name = "deadline_id")
     private Deadline deadline;
 
-    private Long accessLevel;
-
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
@@ -33,7 +31,6 @@ public class Task {
     private TaskState state;
 
     private String headline;
-
     private String description;
 
 }
