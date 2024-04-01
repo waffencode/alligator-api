@@ -17,7 +17,6 @@ import java.nio.file.AccessDeniedException;
 @Component
 public class SprintRepositoriesEventHandler {
     private final SecurityService securityService;
-    private final SprintService sprintService;
 
     @HandleBeforeCreate
     @HandleBeforeDelete
