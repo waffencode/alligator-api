@@ -2,7 +2,6 @@ package com.alligator.alligatorapi.repository.sprint;
 
 import com.alligator.alligatorapi.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.entity.sprint.SprintTaskRole;
-import com.alligator.alligatorapi.entity.team.TeamRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

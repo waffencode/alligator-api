@@ -1,15 +1,16 @@
 package com.alligator.alligatorapi.repository;
 
-import com.alligator.alligatorapi.service.SprintService;
 import com.alligator.alligatorapi.entity.enums.TaskState;
 import com.alligator.alligatorapi.entity.enums.TaskSwapRequestState;
 import com.alligator.alligatorapi.entity.sprint.*;
 import com.alligator.alligatorapi.service.SecurityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.rest.core.annotation.*;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-
-import java.nio.file.AccessDeniedException;
 
 
 @RepositoryEventHandler

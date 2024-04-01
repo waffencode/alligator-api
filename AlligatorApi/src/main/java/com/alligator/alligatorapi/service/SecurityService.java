@@ -2,10 +2,8 @@ package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
 import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.entity.enums.TaskState;
 import com.alligator.alligatorapi.entity.sprint.Sprint;
 import com.alligator.alligatorapi.entity.sprint.SprintTask;
-import com.alligator.alligatorapi.entity.sprint.TaskSwapRequest;
 import com.alligator.alligatorapi.entity.team.Team;
 import com.alligator.alligatorapi.entity.team.TeamMember;
 import com.alligator.alligatorapi.entity.user.User;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

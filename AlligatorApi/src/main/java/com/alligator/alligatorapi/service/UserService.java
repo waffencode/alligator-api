@@ -6,7 +6,6 @@ import com.alligator.alligatorapi.entity.user.UserRole;
 import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
-import com.alligator.alligatorapi.repository.user.RoleRepository;
 import com.alligator.alligatorapi.repository.user.UserRepository;
 import com.alligator.alligatorapi.repository.user.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
