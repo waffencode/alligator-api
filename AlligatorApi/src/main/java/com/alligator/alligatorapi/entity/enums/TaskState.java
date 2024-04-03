@@ -6,5 +6,6 @@ public enum TaskState {
     PICKED,
     IN_PROGRESS,
     TESTING,
-    DONE
+    DONE,
+    ABORTED
 }
