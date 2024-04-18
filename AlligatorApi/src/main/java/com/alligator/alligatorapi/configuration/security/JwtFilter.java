@@ -1,6 +1,6 @@
 package com.alligator.alligatorapi.configuration.security;
 
-import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.model.entity.user.User;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
 import jakarta.servlet.FilterChain;

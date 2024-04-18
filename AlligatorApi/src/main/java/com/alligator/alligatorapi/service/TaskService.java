@@ -1,10 +1,10 @@
 package com.alligator.alligatorapi.service;
 
-import com.alligator.alligatorapi.entity.enums.TaskState;
-import com.alligator.alligatorapi.entity.task.Task;
-import com.alligator.alligatorapi.entity.task.TaskDependency;
-import com.alligator.alligatorapi.repository.task.TaskDependencyRepository;
-import com.alligator.alligatorapi.repository.task.TaskRepository;
+import com.alligator.alligatorapi.model.entity.enums.TaskState;
+import com.alligator.alligatorapi.model.entity.task.Task;
+import com.alligator.alligatorapi.model.entity.task.TaskDependency;
+import com.alligator.alligatorapi.model.repository.task.TaskDependencyRepository;
+import com.alligator.alligatorapi.model.repository.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

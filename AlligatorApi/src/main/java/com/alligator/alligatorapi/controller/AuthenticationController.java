@@ -1,12 +1,12 @@
 package com.alligator.alligatorapi.controller;
 
 import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
-import com.alligator.alligatorapi.dto.request.AuthenticationRequest;
-import com.alligator.alligatorapi.dto.request.PasswordChangeRequest;
-import com.alligator.alligatorapi.dto.request.RegistrationRequest;
-import com.alligator.alligatorapi.dto.response.ExceptionResponse;
-import com.alligator.alligatorapi.dto.response.WhoamiResponse;
-import com.alligator.alligatorapi.entity.user.User;
+import com.alligator.alligatorapi.model.dto.request.AuthenticationRequest;
+import com.alligator.alligatorapi.model.dto.request.PasswordChangeRequest;
+import com.alligator.alligatorapi.model.dto.request.RegistrationRequest;
+import com.alligator.alligatorapi.model.dto.response.ExceptionResponse;
+import com.alligator.alligatorapi.model.dto.response.WhoamiResponse;
+import com.alligator.alligatorapi.model.entity.user.User;
 import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;

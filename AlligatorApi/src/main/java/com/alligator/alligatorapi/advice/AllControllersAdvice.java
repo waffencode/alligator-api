@@ -1,6 +1,6 @@
 package com.alligator.alligatorapi.advice;
 
-import com.alligator.alligatorapi.dto.response.ExceptionResponse;
+import com.alligator.alligatorapi.model.dto.response.ExceptionResponse;
 import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
