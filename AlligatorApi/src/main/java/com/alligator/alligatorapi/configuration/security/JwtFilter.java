@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService userService;
@@ -29,8 +31,6 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
-        Logger logger = Logger.getLogger(JwtFilter.class.getName());
-
         String requestUri = request.getRequestURI();
 
         if(requestUri.equals("/login") || requestUri.equals("/register")) {
@@ -39,6 +39,10 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String token = request.getHeader("Authorization");
+
+        if (token == null) {
+            log.info(STR."token = \{token}, requestUri = \{requestUri} ");
+        }
 
         if (token != null && token.startsWith("Bearer ")) {
             String jwt = token.substring(7);
@@ -49,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtService.pareseUsername(jwt);
 
                 User user = userService.loadFromDatabase(username);
-                logger.log(Level.INFO, "found user " + user.getUsername());
+                log.info("found user " + user.getUsername());
                 Long userId = user.getId();
                 List<GrantedAuthority> authorities = loadRolesFromDataBase(user);
 
@@ -64,14 +68,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                logger.log(Level.INFO, "User " + authentication + " request to " + requestUri + " authenticated successfully.");
+                log.info("User " + authentication + " request to " + requestUri + " authenticated successfully.");
 
                 chain.doFilter(request, response);
                 return;
             }
         }
 
-        logger.log(Level.INFO, "Got invalid jwt in request.");
+        log.info("Got invalid jwt in request.");
         chain.doFilter(request, response);
     }
 

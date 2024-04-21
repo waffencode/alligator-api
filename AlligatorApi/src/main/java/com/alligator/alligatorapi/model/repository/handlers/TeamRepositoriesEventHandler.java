@@ -6,6 +6,8 @@ import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.entity.team.TeamMemberRole;
 import com.alligator.alligatorapi.model.entity.team.TeamRole;
 import com.alligator.alligatorapi.service.SecurityService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
@@ -23,6 +25,9 @@ public class TeamRepositoriesEventHandler {
     @HandleBeforeCreate
     @HandleBeforeSave
     @HandleBeforeDelete
+    @Operation(summary = "Создание новой команды.",
+            description = "Доступно только пользователям с ролью PROJECT_MANAGER",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public void handleTeam(Team team) throws AccessDeniedException {
         if(!securityService.hasRole(RoleName.PROJECT_MANAGER))
             throw new AccessDeniedException("PROJECT_MANAGER role required");
