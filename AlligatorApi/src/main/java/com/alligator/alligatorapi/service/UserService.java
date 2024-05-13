@@ -1,13 +1,13 @@
 package com.alligator.alligatorapi.service;
 
-import com.alligator.alligatorapi.entity.user.Role;
-import com.alligator.alligatorapi.entity.user.User;
-import com.alligator.alligatorapi.entity.user.UserRole;
+import com.alligator.alligatorapi.model.entity.user.Role;
+import com.alligator.alligatorapi.model.entity.user.User;
+import com.alligator.alligatorapi.model.entity.user.UserRole;
 import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
-import com.alligator.alligatorapi.repository.user.UserRepository;
-import com.alligator.alligatorapi.repository.user.UserRoleRepository;
+import com.alligator.alligatorapi.model.repository.user.UserRepository;
+import com.alligator.alligatorapi.model.repository.user.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

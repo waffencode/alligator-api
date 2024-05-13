@@ -1,15 +1,15 @@
 package com.alligator.alligatorapi.service;
 
 import com.alligator.alligatorapi.configuration.security.AuthenticationUserDetails;
-import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.entity.sprint.Sprint;
-import com.alligator.alligatorapi.entity.sprint.SprintTask;
-import com.alligator.alligatorapi.entity.team.Team;
-import com.alligator.alligatorapi.entity.team.TeamMember;
-import com.alligator.alligatorapi.entity.user.User;
-import com.alligator.alligatorapi.repository.sprint.AssignedTaskRepository;
-import com.alligator.alligatorapi.repository.team.TeamMemberRepository;
-import com.alligator.alligatorapi.repository.user.UserRepository;
+import com.alligator.alligatorapi.model.entity.enums.RoleName;
+import com.alligator.alligatorapi.model.entity.sprint.Sprint;
+import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
+import com.alligator.alligatorapi.model.entity.team.Team;
+import com.alligator.alligatorapi.model.entity.team.TeamMember;
+import com.alligator.alligatorapi.model.entity.user.User;
+import com.alligator.alligatorapi.model.repository.sprint.AssignedTaskRepository;
+import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
+import com.alligator.alligatorapi.model.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationServiceException;

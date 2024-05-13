@@ -1,7 +1,7 @@
 package com.alligator.alligatorapi.configuration.security;
 
-import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.repository.user.RoleRepository;
+import com.alligator.alligatorapi.model.entity.enums.RoleName;
+import com.alligator.alligatorapi.model.repository.user.RoleRepository;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;

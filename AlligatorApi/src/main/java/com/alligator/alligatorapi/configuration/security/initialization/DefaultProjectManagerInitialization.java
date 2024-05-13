@@ -1,11 +1,11 @@
 package com.alligator.alligatorapi.configuration.security.initialization;
 
-import com.alligator.alligatorapi.entity.enums.RoleName;
-import com.alligator.alligatorapi.entity.user.Role;
-import com.alligator.alligatorapi.entity.user.User;
-import com.alligator.alligatorapi.entity.user.UserRole;
-import com.alligator.alligatorapi.repository.user.RoleRepository;
-import com.alligator.alligatorapi.repository.user.UserRoleRepository;
+import com.alligator.alligatorapi.model.entity.enums.RoleName;
+import com.alligator.alligatorapi.model.entity.user.Role;
+import com.alligator.alligatorapi.model.entity.user.User;
+import com.alligator.alligatorapi.model.entity.user.UserRole;
+import com.alligator.alligatorapi.model.repository.user.RoleRepository;
+import com.alligator.alligatorapi.model.repository.user.UserRoleRepository;
 import com.alligator.alligatorapi.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
