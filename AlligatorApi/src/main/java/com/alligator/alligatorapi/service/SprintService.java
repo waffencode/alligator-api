@@ -4,6 +4,8 @@ import com.alligator.alligatorapi.model.entity.enums.TaskState;
 import com.alligator.alligatorapi.model.entity.sprint.AssignedTask;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
+import com.alligator.alligatorapi.model.entity.team.TeamMember;
+import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SprintService {
     private final SprintTaskRepository sprintTaskRepository;
+    private final SprintRepository sprintRepository;
     private final TaskService taskService;
 
-    public List<AssignedTask> suggestTaskAssignation(Sprint sprint) {
+    /**
+     * Proceeds with task assignment to the sprint. Returns a list of suggested tasks.
+     */
+    // Signature changed for test purposes.
+    public List<TeamMember> suggestTaskAssignation(Sprint sprint) {
         /*
          1. Вытаскиваем таски из SprintTask в List<SprintTask>
          2. Проверка статуса задачи: назначена ли она, не завершена ли. Проверка зависимостей.
@@ -27,6 +34,8 @@ public class SprintService {
                 .filter(task -> taskService.taskHasUndoneDependencies(task.getTask()))
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 .toList();
+
+        List<TeamMember> teamMembers = sprintRepository.findAll(sprint);
 
         /*
          3. Сортировка по приоритетам и дедлайнам
@@ -43,7 +52,7 @@ public class SprintService {
          (у юзера может быть несколько ролей)
         */
 
-
-        return null;
+        // For test purposes.
+        return teamMembers;
     }
 }
