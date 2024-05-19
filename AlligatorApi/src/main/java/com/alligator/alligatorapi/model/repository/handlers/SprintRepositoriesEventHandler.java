@@ -30,7 +30,7 @@ public class SprintRepositoriesEventHandler {
     public void handleSprintSave(Sprint sprint) throws AccessDeniedException {
         if(!securityService.isPrincipalIsTeamLeadOfTeam(sprint.getTeam()) &&
                 securityService.isPrincipalIsScrumMasterOfSprint(sprint))
-            throw new AccessDeniedException(STR . "Only team leaed of team \{sprint.getTeam().getName()} or scrum-master (User \{sprint.getScrumMaster().getUser().getUsername()}) can manage sprint");
+            throw new AccessDeniedException(STR . "Only team lead of team \{sprint.getTeam().getName()} or scrum-master (User \{sprint.getScrumMaster().getUser().getUsername()}) can manage sprint");
     }
 
     @HandleBeforeCreate
