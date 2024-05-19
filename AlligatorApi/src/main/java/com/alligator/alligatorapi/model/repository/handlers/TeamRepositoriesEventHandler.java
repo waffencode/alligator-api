@@ -72,7 +72,9 @@ public class TeamRepositoriesEventHandler {
     @HandleBeforeSave
     @HandleBeforeDelete
     public void handleTeamMember(TeamMember teamMember) throws AccessDeniedException {
-        if (!securityService.isPrincipalIsTeamLeadOfTeam(teamMember.getTeam()))
+        if (!securityService.isPrincipalIsTeamLeadOfTeam(teamMember.getTeam())) {
+            log.error("User {} is not team lead of team {}", teamMember.getUser().getUsername(), teamMember.getTeam().getName());
             throw new AccessDeniedException("To manage team members required to be team lead of team " + teamMember.getTeam().getName());
+        }
     }
 }

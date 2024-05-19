@@ -11,6 +11,7 @@ import com.alligator.alligatorapi.model.repository.sprint.AssignedTaskRepository
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
 import com.alligator.alligatorapi.model.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityService {
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
@@ -38,9 +40,8 @@ public class SecurityService {
     public Boolean isPrincipalIsTeamLeadOfTeam(Team team) {
         Long userId = getPrincipalId();
 
-        Logger.getLogger(SecurityService.class.getName()).info("Validating user with id " + userId);
-
-        return !Objects.equals(team.getTeamLead().getId(), userId);
+        log.info("Checking if the user with ID {} is the team lead of team {} (comparing with ID {}).", userId, team.getName(), team.getTeamLead().getId());
+        return Objects.equals(team.getTeamLead().getId(), userId);
     }
 
     public Boolean isPrincipalIsScrumMasterOfSprint(Sprint sprint) {
