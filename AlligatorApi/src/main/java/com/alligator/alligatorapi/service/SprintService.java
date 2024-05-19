@@ -70,7 +70,7 @@ public class SprintService {
         // (у юзера может быть несколько ролей)
 
 
-        Logger.getLogger(SprintService.class.getName()).info("This doesn't works yet...");
-        return new ArrayList<>();
+        //Logger.getLogger(SprintService.class.getName()).info("This doesn't works yet...");
+        //return new ArrayList<>();
     }
 }
