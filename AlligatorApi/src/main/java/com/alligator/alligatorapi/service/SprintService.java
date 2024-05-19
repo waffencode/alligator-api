@@ -35,7 +35,7 @@ public class SprintService {
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 .toList();
 
-        List<TeamMember> teamMembers = sprintRepository.findAll(sprint);
+        // List<TeamMember> teamMembers;
 
         /*
          3. Сортировка по приоритетам и дедлайнам
@@ -53,6 +53,6 @@ public class SprintService {
         */
 
         // For test purposes.
-        return teamMembers;
+        return null;
     }
 }
