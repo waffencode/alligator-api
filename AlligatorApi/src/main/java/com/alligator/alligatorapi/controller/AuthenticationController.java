@@ -10,6 +10,7 @@ import com.alligator.alligatorapi.model.entity.user.User;
 import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
+import com.alligator.alligatorapi.model.entity.user.UserInfo;
 import com.alligator.alligatorapi.service.JwtService;
 import com.alligator.alligatorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +51,16 @@ public class AuthenticationController {
                 request.getUsername(),
                 request.getPassword()
         );
-
         User savedUser = userService.saveToDatabase(user);
+
+        UserInfo userInfo = new UserInfo(
+                null,
+                savedUser,
+                request.getFullName(),
+                request.getEmail(),
+                request.getPhone_number()
+        );
+        userInfoService.save(userInfo);
 
         return jwtService.generateTokenFromUsername(savedUser.getUsername());
     }
