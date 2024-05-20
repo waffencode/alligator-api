@@ -2,6 +2,7 @@ package com.alligator.alligatorapi.controller;
 
 import com.alligator.alligatorapi.model.dto.SprintDto;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
+import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.service.SprintService;
@@ -28,14 +29,13 @@ public class SprintController
     public String assignTasks(@RequestBody SprintDto sprintDto) {
         log.info("Assigning tasks to sprint ID {}: {}", sprintDto.getId(), sprintDto);
 
-        // TODO: Fix exception throwing with valid sprint.
         if ((sprintDto.getId() == null) || sprintRepository.findById(sprintDto.getId()).isEmpty())
         {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Sprint not found");
         }
 
         Sprint sprintEntity = sprintRepository.findById(sprintDto.getId()).get();
-        List<TeamMember> list = new ArrayList<>();
+        List<SprintTask> list = new ArrayList<>();
 
         try {
             list = sprintService.suggestTaskAssignation(sprintEntity);
@@ -44,6 +44,11 @@ public class SprintController
             log.error(e.getMessage());
         }
 
-        return "Completed";
+        for (SprintTask sprintTask : list)
+        {
+            log.info("Task to assign: {} | {}", sprintTask.getTask().getHeadline(), sprintTask.getTask().getDescription());
+        }
+
+        return list.toString();
     }
 }
