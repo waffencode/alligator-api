@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SprintService {
     private final SprintTaskRepository sprintTaskRepository;
-    private final SprintRepository sprintRepository;
     private final TaskService taskService;
 
     /**
