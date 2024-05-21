@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(
                                         "/tasks/**",
                                         "/deadlines/**",
-                                        "/taskDependencies/**").hasRole(RoleName.BUSINESS_ANALYTIC.name())
+                                        "/taskDependencies/**").hasAuthority(RoleName.BUSINESS_ANALYTIC.name())
 
                                 // all other requests will be validated on endpoints (in repositories)
                                 .requestMatchers("/**").authenticated()
