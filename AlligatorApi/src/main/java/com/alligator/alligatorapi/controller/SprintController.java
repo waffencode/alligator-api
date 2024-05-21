@@ -1,20 +1,14 @@
 package com.alligator.alligatorapi.controller;
 
-import com.alligator.alligatorapi.model.dto.SprintDto;
+import com.alligator.alligatorapi.model.deserializer.SprintDeserializer;
+import com.alligator.alligatorapi.model.dto.EntityHrefLink;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
-import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
-import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -24,6 +18,7 @@ public class SprintController
 {
     private final SprintService sprintService;
     private final SprintRepository sprintRepository;
+    private final SprintDeserializer sprintDeserializer;
 
 //    @PostMapping(path = "/assign")
 //    @ResponseStatus(HttpStatus.OK)
@@ -54,7 +49,11 @@ public class SprintController
 //    }
 
     @PostMapping(path = "/assign")
-    public ResponseEntity<Sprint> assignTasks(@RequestBody Sprint sprint) {
+    public ResponseEntity<?> getAssignationAdvice(@RequestBody EntityHrefLink sprintLink) {
+        Sprint sprint = sprintDeserializer.deserialize(sprintLink);
+
+        var assignations = sprintService.suggestTaskAssignation(sprint);
+
         return ResponseEntity.ok(sprint);
     }
 }
