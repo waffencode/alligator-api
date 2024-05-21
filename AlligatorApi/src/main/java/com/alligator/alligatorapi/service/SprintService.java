@@ -8,6 +8,7 @@ import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.repository.sprint.AssignedTaskRepository;
+import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;

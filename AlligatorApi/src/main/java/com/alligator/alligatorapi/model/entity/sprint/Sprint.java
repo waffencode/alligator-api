@@ -25,22 +25,22 @@ public class Sprint {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team_id")
-    @NotNull
+    @NotNull(message = "Team is required")
     private Team team;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "scrum_master_id")
-    @NotNull
+    @NotNull(message = "Scrum master is required")
     private TeamMember scrumMaster;
 
     private Timestamp startTime;
     private Timestamp endTime;
     private Long sp;
 
-    @NotNull
+    @NotNull(message = "Name is required")
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "State is required")
     private SprintState state;
 }
