@@ -23,20 +23,6 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class AllControllersAdvice {
-    @ExceptionHandler({ConstraintViolationException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ExceptionResponse handleConstraintViolationException(ConstraintViolationException ex) {
-        StringBuilder builder = new StringBuilder();
-        ex.getConstraintViolations()
-                .forEach(constraintViolation -> {
-                    builder.append(constraintViolation.getMessage());
-                    builder.append("; ");
-                });
-
-        return new ExceptionResponse(builder.toString());
-    }
-
     @ExceptionHandler({
             AccessDeniedException.class,
             AuthenticationServiceException.class,
@@ -45,7 +31,8 @@ public class AllControllersAdvice {
             UsernameAlreadyInUseException.class,
             HttpMessageNotReadableException.class,
             IllegalStateException.class,
-            EntityNotFoundException.class
+            EntityNotFoundException.class,
+            ConstraintViolationException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
