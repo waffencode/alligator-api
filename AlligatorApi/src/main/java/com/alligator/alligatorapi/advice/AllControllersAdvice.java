@@ -5,6 +5,7 @@ import com.alligator.alligatorapi.exception.PasswordDoesntMatchesException;
 import com.alligator.alligatorapi.exception.UsernameAlreadyInUseException;
 import com.alligator.alligatorapi.exception.UsernameNotFoundException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -43,7 +44,8 @@ public class AllControllersAdvice {
             UsernameNotFoundException.class,
             UsernameAlreadyInUseException.class,
             HttpMessageNotReadableException.class,
-            IllegalStateException.class
+            IllegalStateException.class,
+            EntityNotFoundException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

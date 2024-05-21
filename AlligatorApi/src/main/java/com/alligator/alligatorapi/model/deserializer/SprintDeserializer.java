@@ -3,6 +3,7 @@ package com.alligator.alligatorapi.model.deserializer;
 import com.alligator.alligatorapi.model.dto.EntityHrefLink;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class SprintDeserializer {
 
             // Fetch Sprint entity from repository
             return sprintRepository.findById(sprintId)
-                    .orElseThrow(() -> new RuntimeException("Sprint not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Sprint not found"));
 
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
