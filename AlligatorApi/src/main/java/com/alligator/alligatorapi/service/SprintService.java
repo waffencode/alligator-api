@@ -4,12 +4,16 @@ import com.alligator.alligatorapi.model.entity.enums.TaskState;
 import com.alligator.alligatorapi.model.entity.sprint.AssignedTask;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
+import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
+import com.alligator.alligatorapi.model.repository.sprint.AssignedTaskRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
+import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SprintService {
     private final SprintTaskRepository sprintTaskRepository;
+    private final TeamMemberRepository teamMemberRepository;
+    private final AssignedTaskRepository assignedTaskRepository;
     private final TaskService taskService;
 
     /**
@@ -34,7 +40,19 @@ public class SprintService {
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 .toList();
 
-        // List<TeamMember> teamMembers;
+        Team sprintTeam = sprint.getTeam();
+        List<TeamMember> teamMembers = teamMemberRepository.findAllByTeam(sprintTeam);
+        List<AssignedTask> assignedTasks = new ArrayList<>();
+
+        // First solution: assign all tasks to all team members.
+        for (TeamMember teamMember : teamMembers) {
+            for (SprintTask task : allowedToAssignationTasks) {
+                AssignedTask assignedTask = new AssignedTask();
+                assignedTask.setTask(task);
+                assignedTask.setTeamMember(teamMember);
+                assignedTaskRepository.save(assignedTask);
+            }
+        }
 
         /*
          3. Сортировка по приоритетам и дедлайнам
