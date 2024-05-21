@@ -34,16 +34,14 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable);
-
-        http
-                .cors(AbstractHttpConfigurer::disable);
-
         http
                 .addFilterBefore(new JwtFilter(jwtService, userService), BasicAuthenticationFilter.class);
 
         http
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                                .requestMatchers("/test").authenticated()
 
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
