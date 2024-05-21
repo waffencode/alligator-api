@@ -33,6 +33,7 @@ public class Sprint {
     private Timestamp startTime;
     private Timestamp endTime;
     private Long sp;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private SprintState state;
