@@ -4,6 +4,7 @@ import com.alligator.alligatorapi.model.entity.enums.TaskState;
 import com.alligator.alligatorapi.model.entity.enums.TaskSwapRequestState;
 import com.alligator.alligatorapi.model.entity.sprint.*;
 import com.alligator.alligatorapi.service.SecurityService;
+import com.alligator.alligatorapi.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
@@ -18,12 +19,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class SprintRepositoriesEventHandler {
     private final SecurityService securityService;
+    private final SprintService sprintService;
+
+    @HandleBeforeDelete
+    public void handleSprintDelete(Sprint sprint) throws AccessDeniedException {
+        if(!securityService.isPrincipalIsTeamLeadOfTeam(sprint.getTeam()))
+            throw new AccessDeniedException(STR . "Only team lead of team \{sprint.getTeam().getName()} can delete sprints");
+    }
 
     @HandleBeforeCreate
-    @HandleBeforeDelete
-    public void handleSprintCreateDelete(Sprint sprint) throws AccessDeniedException {
+    public void handleSprintCreate(Sprint sprint) throws AccessDeniedException {
         if(!securityService.isPrincipalIsTeamLeadOfTeam(sprint.getTeam()))
             throw new AccessDeniedException(STR . "Only team lead of team \{sprint.getTeam().getName()} can create/delete sprints");
+
+        sprintService.validateSprintSave(sprint);
     }
 
     @HandleBeforeSave

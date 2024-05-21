@@ -1,9 +1,11 @@
 package com.alligator.alligatorapi.service;
 
+import com.alligator.alligatorapi.model.entity.enums.SprintState;
 import com.alligator.alligatorapi.model.entity.enums.TaskState;
 import com.alligator.alligatorapi.model.entity.sprint.AssignedTask;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
+import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 public class SprintService {
     private final SprintTaskRepository sprintTaskRepository;
     private final TaskService taskService;
+    private final SprintRepository sprintRepository;
 
     /**
      * Proceeds with task assignment to the sprint. Returns a list of suggested tasks.
@@ -53,5 +56,24 @@ public class SprintService {
 
         // For test purposes.
         return allowedToAssignationTasks;
+    }
+
+    /**
+     * Rules:
+     * 1) only one active sprint per team
+     * @param sprint
+     * @return
+     */
+    public void validateSprintSave(Sprint sprint) {
+        // 1
+        if(sprint.getState() == SprintState.ACTIVE) {
+            Team team = sprint.getTeam();
+            List<Sprint> teamSprints = sprintRepository.findAllByTeam(team);
+
+            for(Sprint s : teamSprints) {
+                if (s.getState() == SprintState.ACTIVE)
+                    throw new IllegalStateException("Only one sprint can be active in team. Currently active sprint name: " + sprint.getName());
+            }
+        }
     }
 }

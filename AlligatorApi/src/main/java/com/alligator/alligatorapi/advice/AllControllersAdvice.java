@@ -42,7 +42,8 @@ public class AllControllersAdvice {
             PasswordDoesntMatchesException.class,
             UsernameNotFoundException.class,
             UsernameAlreadyInUseException.class,
-            HttpMessageNotReadableException.class
+            HttpMessageNotReadableException.class,
+            IllegalStateException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
