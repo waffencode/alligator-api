@@ -52,7 +52,7 @@ public class SprintController
     public ResponseEntity<?> getAssignationAdvice(@RequestBody EntityHrefLink sprintLink) {
         Sprint sprint = sprintDeserializer.deserialize(sprintLink);
 
-        var assignations = sprintService.suggestTaskAssignation(sprint);
+        var assignations = sprintService.doTaskAssignation(sprint);
 
         return ResponseEntity.ok(sprint);
     }
