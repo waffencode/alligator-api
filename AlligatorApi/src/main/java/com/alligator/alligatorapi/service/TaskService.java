@@ -18,8 +18,9 @@ public class TaskService {
 
     public Boolean taskHasUndoneDependencies(Task task) {
         List<TaskDependency> taskDependencies = taskDependencyRepository.findAllByTask(task);
+
         for (TaskDependency dependency : taskDependencies) {
-            if(!dependency.getDependency().getState().equals(TaskState.DONE))
+            if (!dependency.getDependency().getState().equals(TaskState.DONE))
                 return true;
         }
 

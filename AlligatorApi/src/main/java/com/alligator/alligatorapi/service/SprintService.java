@@ -12,6 +12,7 @@ import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SprintService {
     private final SprintTaskRepository sprintTaskRepository;
@@ -36,7 +38,9 @@ public class SprintService {
          1. Вытаскиваем таски из SprintTask в List<SprintTask>
          2. Проверка статуса задачи: назначена ли она, не завершена ли. Проверка зависимостей.
         */
+        log.info("Assigning tasks to sprint: {}", sprint);
         List<SprintTask> allowedToAssignationTasks = getSprintTasks(sprint);
+        log.info("allowedToAssignationTasks count: {}", allowedToAssignationTasks.size());
 
         Team sprintTeam = sprint.getTeam();
         List<TeamMember> teamMembers = teamMemberRepository.findAllByTeam(sprintTeam);
@@ -45,10 +49,12 @@ public class SprintService {
         // First solution: assign all tasks to all team members.
         for (TeamMember teamMember : teamMembers) {
             for (SprintTask task : allowedToAssignationTasks) {
+                log.info("task: {}, teamMember: {}", task, teamMember);
                 AssignedTask assignedTask = new AssignedTask();
                 assignedTask.setTask(task);
                 assignedTask.setTeamMember(teamMember);
                 assignedTaskRepository.save(assignedTask);
+                log.info("assignedTask: {}", assignedTask);
                 assignedTasks.add(assignedTask);
             }
         }
@@ -68,6 +74,7 @@ public class SprintService {
          (у юзера может быть несколько ролей)
         */
 
+        log.info("Assigned tasks: {}", assignedTasks);
         // For test purposes.
         return assignedTasks;
     }
@@ -77,7 +84,7 @@ public class SprintService {
     {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
                 .filter(task -> task.getTask().getState().equals(TaskState.TODO))
-                .filter(task -> taskService.taskHasUndoneDependencies(task.getTask()))
+                .filter(task -> !taskService.taskHasUndoneDependencies(task.getTask()))
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 .toList();
     }
