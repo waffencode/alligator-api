@@ -30,9 +30,12 @@ public class SprintService {
     private final SprintRepository sprintRepository;
 
     /**
-     * Proceeds with task assignment to the sprint. Returns a list of suggested tasks.
+     * Proceeds with task assignment to the sprint.
+     *
+     * @param sprint the Sprint object to which tasks will be assigned.
+     * @return a list of AssignedTask objects representing the tasks assigned to team members.
      */
-    // Signature changed for test purposes.
+    // TODO: Make method return `void` or remove side effects.
     public List<AssignedTask> doTaskAssignation(Sprint sprint) {
         /*
          1. Вытаскиваем таски из SprintTask в List<SprintTask>
@@ -66,20 +69,15 @@ public class SprintService {
          Если дедлайн задачи истекает посреди спринта, Тогда выполняется в первую очередь. Hard deadline - по истечение дедлайна задача не имеет смысл
          Мягкий дедлайн - разные варианты, например, снижается приоритет.
          Будем ли добавлять в качестве характеристики задачи время на выполнение?
-        */
-
-
-        /*
          4. Сопоставление по возможностям ролей
          (у юзера может быть несколько ролей)
         */
 
         log.info("Assigned tasks: {}", assignedTasks);
-        // For test purposes.
+
         return assignedTasks;
     }
 
-    // Added for further decomposition.
     public List<SprintTask> getSprintTasks(Sprint sprint)
     {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
@@ -96,13 +94,12 @@ public class SprintService {
      * @return
      */
     public void validateSprintSave(Sprint sprint) {
-        // 1
-        if(sprint.getState() == SprintState.ACTIVE) {
+        if (sprint.getState() == SprintState.ACTIVE) {
             Team team = sprint.getTeam();
             List<Sprint> teamSprints = sprintRepository.findAllByTeam(team);
 
-            for(Sprint s : teamSprints) {
-                if (s.getState() == SprintState.ACTIVE)
+            for (Sprint teamSprint : teamSprints) {
+                if (teamSprint.getState() == SprintState.ACTIVE)
                     throw new IllegalStateException("Only one sprint can be active in team. Currently active sprint name: " + sprint.getName());
             }
         }
