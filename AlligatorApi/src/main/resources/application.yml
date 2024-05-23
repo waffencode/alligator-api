@@ -17,5 +17,9 @@ spring:
           hibernate:
             dialect: PostgreSQLDialect
 
+  autoconfigure:
+    exclude: org.springframework.boot.actuate.autoconfigure.metrics.mongo.MongoMetricsAutoConfiguration
+
+
 jwt:
   secret: 'lolkek'
