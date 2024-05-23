@@ -60,7 +60,7 @@ public class SecurityService {
     }
 
     public Boolean isTaskAssignedToPrincipal(SprintTask sprintTask) {
-        Optional<TeamMember> teamMemberMappedEntity = teamMemberRepository.findByUserId(getPrincipalId());
+        Optional<TeamMember> teamMemberMappedEntity = teamMemberRepository.findByUserIdAndTeam(getPrincipalId(), sprintTask.getSprint().getTeam());
 
         //noinspection OptionalIsPresent
         if(teamMemberMappedEntity.isEmpty())

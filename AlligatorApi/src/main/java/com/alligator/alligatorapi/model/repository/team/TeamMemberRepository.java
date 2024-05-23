@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Long>, QuerydslPredicateExecutor<TeamMember> {
     Boolean existsByTeamAndUser(Team team, User user);
     List<TeamMember> findAllByTeam(Team team);
-    Optional<TeamMember> findByUserId(Long user_id);
+    Optional<TeamMember> findByUserIdAndTeam(Long user_id, Team team);
 }
