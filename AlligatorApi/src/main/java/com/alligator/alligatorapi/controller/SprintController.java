@@ -7,7 +7,11 @@ import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,5 +39,12 @@ public class SprintController
         Sprint sprint = sprintDeserializer.deserialize(sprintLink);
 
         return sprintService.doTaskAssignation(sprint);
+    }
+
+    @GetMapping(path = "/sprints/findAllWhereUserIsTeamMember", params = "userId")
+    public ResponseEntity<?> findAllWhereUserIsTeamMember(@RequestParam(value = "userId") Long userId) {
+        List<Sprint> sprints = sprintService.findAllWhereUserIsTeamMemberByUserId(userId);
+
+        return ResponseEntity.ok(sprints);
     }
 }

@@ -7,10 +7,13 @@ import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
+import com.alligator.alligatorapi.model.entity.user.User;
 import com.alligator.alligatorapi.model.repository.sprint.AssignedTaskRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintRepository;
 import com.alligator.alligatorapi.model.repository.sprint.SprintTaskRepository;
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
+import com.alligator.alligatorapi.model.repository.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class SprintService {
+    private final UserRepository userRepository;
     private final SprintTaskRepository sprintTaskRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final AssignedTaskRepository assignedTaskRepository;
@@ -103,5 +107,18 @@ public class SprintService {
                     throw new IllegalStateException("Only one sprint can be active in team. Currently active sprint name: " + sprint.getName());
             }
         }
+    }
+
+    public List<Sprint> findAllWhereUserIsTeamMemberByUserId(Long userId) {
+        List<Sprint> sprints = new ArrayList<>();
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+        List<TeamMember> userTeamMembers = teamMemberRepository.findAllByUser(user);
+
+        if(userTeamMembers.isEmpty()) return sprints;
+
+        userTeamMembers.forEach(teamMember -> sprints.addAll(sprintRepository.findAllByTeam(teamMember.getTeam())));
+
+        return sprints;
     }
 }
