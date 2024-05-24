@@ -44,18 +44,21 @@ public class SprintService extends RepositoryDependentService {
         // Solution v2: assign all tasks to team members with role check.
         for (TeamMember teamMember : teamMembers) {
             for (SprintTask task : allowedToAssignationTasks) {
-                if (taskHasRequirementsForRole(task))
-                {
-                    // TODO: Finish method.
-                    List<TeamRole> requiredRoles = sprintTaskRequiredRoleRepository.findByTask(task).stream().map(SprintTaskRole::getRole).toList();
-                    List<TeamRole> teamMemberRoles = teamMemberRoleRepository.findAllByTeamMember(teamMember).stream().map(TeamMemberRole::getRole).toList();
+                if (taskHasRequirementsForRole(task)) {
+                    List<TeamRole> requiredRoles = sprintTaskRequiredRoleRepository.findByTask(task).stream()
+                        .map(SprintTaskRole::getRole).toList();
+
+                    List<TeamRole> teamMemberRoles = teamMemberRoleRepository.findAllByTeamMember(teamMember).stream()
+                        .map(TeamMemberRole::getRole).toList();
+
+                    if (!requiredRoles.stream().filter(teamMemberRoles::contains).toList().isEmpty())
+                    {
+                        AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
+                        assignedTasks.add(assignedTask);
+                    }
                 }
-                else
-                {
-                    AssignedTask assignedTask = new AssignedTask();
-                    assignedTask.setTask(task);
-                    assignedTask.setTeamMember(teamMember);
-                    assignedTaskRepository.save(assignedTask);
+                else {
+                    AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                     assignedTasks.add(assignedTask);
                 }
             }
@@ -120,6 +123,15 @@ public class SprintService extends RepositoryDependentService {
         userTeamMembers.forEach(teamMember -> sprints.addAll(sprintRepository.findAllByTeam(teamMember.getTeam())));
 
         return sprints;
+    }
+
+    private AssignedTask assignTaskToTeamMember(TeamMember teamMember, SprintTask task)
+    {
+        AssignedTask assignedTask = new AssignedTask();
+        assignedTask.setTask(task);
+        assignedTask.setTeamMember(teamMember);
+        assignedTaskRepository.save(assignedTask);
+        return assignedTask;
     }
 
     private Boolean taskHasRequirementsForRole(SprintTask task) {
