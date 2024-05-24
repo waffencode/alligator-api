@@ -39,13 +39,8 @@ public class SprintService {
      * @param sprint the Sprint object to which tasks will be assigned.
      * @return a list of AssignedTask objects representing the tasks assigned to team members.
      */
-    // TODO: Make method return `void` or remove side effects.
+    // TODO: Make method return `void` or remove side effects, remove excessive logging.
     public List<AssignedTask> doTaskAssignation(Sprint sprint) {
-        /*
-         1. Вытаскиваем таски из SprintTask в List<SprintTask>
-         2. Проверка статуса задачи: назначена ли она, не завершена ли. Проверка зависимостей.
-        */
-        log.info("Assigning tasks to sprint: {}", sprint);
         List<SprintTask> allowedToAssignationTasks = getSprintTasks(sprint);
         log.info("allowedToAssignationTasks count: {}", allowedToAssignationTasks.size());
 
@@ -77,11 +72,16 @@ public class SprintService {
          (у юзера может быть несколько ролей)
         */
 
-        log.info("Assigned tasks: {}", assignedTasks);
+        log.info("Assigned tasks (all entities): {}", assignedTasks.size());
 
         return assignedTasks;
     }
 
+    /**
+     * Retrieve tasks from SprintTask and store them in a List.
+     * Check the status of each task: ensure it is assigned and not completed.
+     * Verify task dependencies.
+     */
     public List<SprintTask> getSprintTasks(Sprint sprint)
     {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
