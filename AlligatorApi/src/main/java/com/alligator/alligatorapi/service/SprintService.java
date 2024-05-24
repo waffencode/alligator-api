@@ -79,8 +79,8 @@ public class SprintService extends RepositoryDependentService {
 
     /**
      * Retrieve tasks from SprintTask and store them in a List.
-     * Check the status of each task: ensure it is assigned and not completed.
-     * Verify task dependencies.
+     * Check the status of each task: ensure it is not completed and has no undone dependencies.
+     * Sort tasks by priority.
      */
     public List<SprintTask> getSprintTasks(Sprint sprint)
     {
