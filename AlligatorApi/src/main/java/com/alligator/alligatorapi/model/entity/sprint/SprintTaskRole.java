@@ -22,6 +22,7 @@ public class SprintTaskRole {
     @ManyToOne
     @JoinColumn(name = "task_id")
     private SprintTask task;
+
     @ManyToOne
     @JoinColumn(name = "team_role_id")
     private TeamRole role;
