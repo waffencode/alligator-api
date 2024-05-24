@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TaskService {
-    private final TaskRepository taskRepository;
     private final TaskDependencyRepository taskDependencyRepository;
 
     public Boolean taskHasUndoneDependencies(Task task) {

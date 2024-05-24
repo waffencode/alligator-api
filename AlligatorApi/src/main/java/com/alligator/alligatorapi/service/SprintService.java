@@ -6,6 +6,7 @@ import com.alligator.alligatorapi.model.entity.sprint.AssignedTask;
 import com.alligator.alligatorapi.model.entity.sprint.Sprint;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTask;
 import com.alligator.alligatorapi.model.entity.sprint.SprintTaskRole;
+import com.alligator.alligatorapi.model.entity.task.Deadline;
 import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
 import com.alligator.alligatorapi.model.entity.team.TeamMemberRole;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -85,12 +88,12 @@ public class SprintService extends RepositoryDependentService {
      * Check the status of each task: ensure it is not completed and has no undone dependencies.
      * Sort tasks by priority.
      */
-    public List<SprintTask> getSprintTasks(Sprint sprint)
-    {
+    public List<SprintTask> getSprintTasks(Sprint sprint) {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
                 .filter(task -> task.getTask().getState().equals(TaskState.TODO))
                 .filter(task -> !taskService.taskHasUndoneDependencies(task.getTask()))
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
+                // TODO: Add sorting by due date.
                 .toList();
     }
 
@@ -125,8 +128,7 @@ public class SprintService extends RepositoryDependentService {
         return sprints;
     }
 
-    private AssignedTask assignTaskToTeamMember(TeamMember teamMember, SprintTask task)
-    {
+    private AssignedTask assignTaskToTeamMember(TeamMember teamMember, SprintTask task) {
         AssignedTask assignedTask = new AssignedTask();
         assignedTask.setTask(task);
         assignedTask.setTeamMember(teamMember);
@@ -136,5 +138,18 @@ public class SprintService extends RepositoryDependentService {
 
     private Boolean taskHasRequirementsForRole(SprintTask task) {
         return !sprintTaskRequiredRoleRepository.findByTask(task).isEmpty();
+    }
+
+    private Duration getTaskDuration(SprintTask task) {
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        Deadline deadline = task.getTask().getDeadline();
+
+        if (deadline == null) {
+            Sprint sprint = task.getSprint();
+            return Duration.ofMillis(sprint.getEndTime().getTime() - current.getTime());
+        }
+
+        Timestamp end = deadline.getTime();
+        return Duration.ofMillis(end.getTime() - current.getTime());
     }
 }
