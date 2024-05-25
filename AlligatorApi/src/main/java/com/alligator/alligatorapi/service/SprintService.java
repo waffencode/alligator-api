@@ -86,7 +86,7 @@ public class SprintService extends RepositoryDependentService {
     /**
      * Retrieve tasks from SprintTask and store them in a List.
      * Check the status of each task: ensure it is not completed and has no undone dependencies.
-     * Sort tasks by priority.
+     * Sort tasks by priority, deadline, complexity.
      */
     public List<SprintTask> getSprintTasks(Sprint sprint) {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
@@ -98,6 +98,8 @@ public class SprintService extends RepositoryDependentService {
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 // Sort tasks by deadline, ascending order.
                 .sorted(Comparator.comparing(this::getTaskDuration))
+                // Sort tasks by complexity, descending order.
+                .sorted(Comparator.comparing(SprintTask::getSp).reversed())
                 .toList();
     }
 

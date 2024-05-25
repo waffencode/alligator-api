@@ -24,6 +24,7 @@ public class SprintTask {
     @ManyToOne
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;
+
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
