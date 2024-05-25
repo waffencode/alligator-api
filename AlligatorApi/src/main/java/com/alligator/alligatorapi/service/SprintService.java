@@ -146,6 +146,11 @@ public class SprintService extends RepositoryDependentService {
 
         if (deadline == null) {
             Sprint sprint = task.getSprint();
+
+            if (sprint.getEndTime() == null) {
+                return Duration.ZERO;
+            }
+
             return Duration.ofMillis(sprint.getEndTime().getTime() - current.getTime());
         }
 
