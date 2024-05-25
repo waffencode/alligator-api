@@ -90,10 +90,14 @@ public class SprintService extends RepositoryDependentService {
      */
     public List<SprintTask> getSprintTasks(Sprint sprint) {
         return sprintTaskRepository.findAllBySprint(sprint).stream()
+                // Select tasks that are not completed.
                 .filter(task -> task.getTask().getState().equals(TaskState.TODO))
+                // Select tasks that have no undone dependencies.
                 .filter(task -> !taskService.taskHasUndoneDependencies(task.getTask()))
+                // Sort tasks by priority, ascending order.
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
-                // TODO: Add sorting by due date.
+                // Sort tasks by deadline, ascending order.
+                .sorted(Comparator.comparing(this::getTaskDuration))
                 .toList();
     }
 
@@ -147,6 +151,7 @@ public class SprintService extends RepositoryDependentService {
         if (deadline == null) {
             Sprint sprint = task.getSprint();
 
+            // If there is no explicit deadline, we make task high priority.
             if (sprint.getEndTime() == null) {
                 return Duration.ZERO;
             }
