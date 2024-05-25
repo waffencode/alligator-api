@@ -94,7 +94,7 @@ public class SprintService extends RepositoryDependentService {
                 .filter(task -> task.getTask().getState().equals(TaskState.TODO))
                 // Select tasks that have no undone dependencies.
                 .filter(task -> !taskService.taskHasUndoneDependencies(task.getTask()))
-                // Sort tasks by priority, ascending order.
+                // Sort tasks by priority, descending order.
                 .sorted(Comparator.comparing(task -> task.getTask().getPriority()))
                 // Sort tasks by deadline, ascending order.
                 .sorted(Comparator.comparing(this::getTaskDuration))
