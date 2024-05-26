@@ -18,7 +18,7 @@ services:
   db:
     image: postgres:latest
     ports:
-      - "8001:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: alligator
       POSTGRES_USER: postgres

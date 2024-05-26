@@ -3,6 +3,7 @@ package com.alligator.alligatorapi.service;
 import com.alligator.alligatorapi.model.dto.response.TeamMemberUserInfoAndRolesResponse;
 import com.alligator.alligatorapi.model.entity.team.Team;
 import com.alligator.alligatorapi.model.entity.team.TeamMember;
+import com.alligator.alligatorapi.model.entity.user.UserInfo;
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRepository;
 import com.alligator.alligatorapi.model.repository.team.TeamMemberRoleRepository;
 import com.alligator.alligatorapi.model.repository.team.TeamRepository;
@@ -35,7 +36,8 @@ public class TeamService {
 
         teamMembers.forEach(teamMember -> {
                     TeamMemberUserInfoAndRolesResponse response = new TeamMemberUserInfoAndRolesResponse();
-                    response.setUserInfo(userInfoRepository.getByUserId(teamMember.getUser().getId()));
+                    // TODO: think about it
+                    response.setUserInfo(userInfoRepository.findByUserId(teamMember.getUser().getId()).orElse(new UserInfo()));
                     response.setTeamMemberRoles(teamMemberRoleRepository.findAllByTeamMember(teamMember));
 
                     responses.add(response);
