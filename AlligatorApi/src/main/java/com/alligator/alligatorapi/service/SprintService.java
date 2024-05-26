@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,7 +40,7 @@ public class SprintService extends RepositoryDependentService {
     // TODO: Make method return `void` or remove side effects, remove excessive logging.
     public List<AssignedTask> doTaskAssignation(Sprint sprint) {
         List<SprintTask> allowedToAssignationTasks = getSprintTasks(sprint);
-        log.info("allowedToAssignationTasks count: {}", allowedToAssignationTasks.size());
+        log.info("Allowed to assignation tasks count: {}", allowedToAssignationTasks.size());
 
         Team sprintTeam = sprint.getTeam();
         List<TeamMember> teamMembers = teamMemberRepository.findAllByTeam(sprintTeam);
@@ -57,6 +58,7 @@ public class SprintService extends RepositoryDependentService {
 
             while (taskIterator.hasNext()) {
                 SprintTask task = taskIterator.next();
+                log.info("Processing task '{}' with heading: '{}'", task.getTask(), task.getTask().getHeadline());
 
                 if (tasksPerUser >= maxTasksPerUser)
                     break;
@@ -104,7 +106,7 @@ public class SprintService extends RepositoryDependentService {
                 .sorted(Comparator.comparing(this::getTaskDuration))
                 // Sort tasks by complexity, descending order.
                 .sorted(Comparator.comparing(SprintTask::getSp).reversed())
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
