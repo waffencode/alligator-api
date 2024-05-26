@@ -8,4 +8,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, QuerydslPredicateExecutor<UserInfo> {
     void deleteByUser(User user);
     UserInfo getByUserId(Long userId);
+    Boolean existsByUser(User user);
 }

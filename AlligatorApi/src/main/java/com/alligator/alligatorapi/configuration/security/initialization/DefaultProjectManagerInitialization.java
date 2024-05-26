@@ -3,8 +3,10 @@ package com.alligator.alligatorapi.configuration.security.initialization;
 import com.alligator.alligatorapi.model.entity.enums.RoleName;
 import com.alligator.alligatorapi.model.entity.user.Role;
 import com.alligator.alligatorapi.model.entity.user.User;
+import com.alligator.alligatorapi.model.entity.user.UserInfo;
 import com.alligator.alligatorapi.model.entity.user.UserRole;
 import com.alligator.alligatorapi.model.repository.user.RoleRepository;
+import com.alligator.alligatorapi.model.repository.user.UserInfoRepository;
 import com.alligator.alligatorapi.model.repository.user.UserRoleRepository;
 import com.alligator.alligatorapi.service.UserService;
 import jakarta.annotation.PostConstruct;
@@ -26,6 +28,7 @@ public class DefaultProjectManagerInitialization {
     private final UserService userService;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @PostConstruct
     public void init() {
@@ -38,14 +41,21 @@ public class DefaultProjectManagerInitialization {
 
             Role roleAdmin = roleRepository.findByName(RoleName.PROJECT_MANAGER);
 
-            if(!userRoleRepository.existsByUserAndRole(admin, roleAdmin)) {
+            if (!userRoleRepository.existsByUserAndRole(admin, roleAdmin)) {
                 UserRole adminRole = new UserRole();
                 adminRole.setUser(admin);
                 adminRole.setRole(roleAdmin);
                 userRoleRepository.save(adminRole);
-
             }
 
+            if (!userInfoRepository.existsByUser(admin)) {
+                UserInfo adminInfo = new UserInfo();
+                adminInfo.setUser(admin);
+                adminInfo.setFullName("John Doe");
+                adminInfo.setEmail("example@example.com");
+                adminInfo.setPhone_number("+123456789");
+                userInfoRepository.save(adminInfo);
+            }
         } finally {
             clearSecurityContext();
         }
