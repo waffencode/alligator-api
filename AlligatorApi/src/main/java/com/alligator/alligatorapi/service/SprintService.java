@@ -52,6 +52,11 @@ public class SprintService extends RepositoryDependentService {
             int tasksPerUser = 0;
 
             for (SprintTask task : allowedToAssignationTasks) {
+                /*
+                 TODO: There is a potential situation here where two tasks need to be assigned to two users,
+                 but one task gets assigned to both users while the other remains unassigned.
+                 This needs to be fixed.
+                */
                 if (tasksPerUser >= maxTasksPerUser)
                     break;
 
@@ -76,17 +81,6 @@ public class SprintService extends RepositoryDependentService {
                 }
             }
         }
-
-        /*
-         3. Сортировка по приоритетам и дедлайнам
-         (матрица Эйзенхауэра. Если задачи связанные, то рассматриваем по самой важной и срочной в цепочке)
-         Приоритеты: A, B, C, D, E.
-         Если дедлайн задачи истекает посреди спринта, Тогда выполняется в первую очередь. Hard deadline - по истечение дедлайна задача не имеет смысл
-         Мягкий дедлайн - разные варианты, например, снижается приоритет.
-         Будем ли добавлять в качестве характеристики задачи время на выполнение?
-         4. Сопоставление по возможностям ролей
-         (у юзера может быть несколько ролей)
-        */
 
         log.info("Assigned tasks (all entities): {}", assignedTasks.size());
 
