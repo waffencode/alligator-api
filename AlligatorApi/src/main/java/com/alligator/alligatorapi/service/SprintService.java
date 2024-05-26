@@ -68,20 +68,14 @@ public class SprintService extends RepositoryDependentService {
                     List<TeamRole> teamMemberRoles = teamMemberRoleRepository.findAllByTeamMember(teamMember).stream()
                         .map(TeamMemberRole::getRole).toList();
 
-                    if (!requiredRoles.stream().filter(teamMemberRoles::contains).toList().isEmpty()) {
-                        // TODO: Fix code duplication.
-                        AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
-                        assignedTasks.add(assignedTask);
-                        tasksPerUser++;
-                        taskIterator.remove();
-                    }
+                    if (requiredRoles.stream().filter(teamMemberRoles::contains).toList().isEmpty())
+                        break;
                 }
-                else {
-                    AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
-                    assignedTasks.add(assignedTask);
-                    tasksPerUser++;
-                    taskIterator.remove();
-                }
+
+                AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
+                assignedTasks.add(assignedTask);
+                tasksPerUser++;
+                taskIterator.remove();
             }
 
             // Restart the iterator for the next team member.
