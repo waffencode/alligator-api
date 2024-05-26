@@ -44,9 +44,17 @@ public class SprintService extends RepositoryDependentService {
         List<TeamMember> teamMembers = teamMemberRepository.findAllByTeam(sprintTeam);
         List<AssignedTask> assignedTasks = new ArrayList<>();
 
-        // Solution v2: assign all tasks to team members with role check.
+        // We limit the maximum number of tasks per user to the average number of available tasks per team.
+        int maxTasksPerUser = (int) Math.ceil((double) allowedToAssignationTasks.size() / teamMembers.size());
+
+        // Solution v3: assign all tasks to team members with role check and task limits.
         for (TeamMember teamMember : teamMembers) {
+            int tasksPerUser = 0;
+
             for (SprintTask task : allowedToAssignationTasks) {
+                if (tasksPerUser >= maxTasksPerUser)
+                    break;
+
                 if (taskHasRequirementsForRole(task)) {
                     List<TeamRole> requiredRoles = sprintTaskRequiredRoleRepository.findByTask(task).stream()
                         .map(SprintTaskRole::getRole).toList();
@@ -58,11 +66,13 @@ public class SprintService extends RepositoryDependentService {
                     {
                         AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                         assignedTasks.add(assignedTask);
+                        tasksPerUser++;
                     }
                 }
                 else {
                     AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                     assignedTasks.add(assignedTask);
+                    tasksPerUser++;
                 }
             }
         }
