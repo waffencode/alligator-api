@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -47,16 +48,16 @@ public class SprintService extends RepositoryDependentService {
         // We limit the maximum number of tasks per user to the average number of available tasks per team.
         int maxTasksPerUser = (int) Math.ceil((double) allowedToAssignationTasks.size() / teamMembers.size());
 
-        // Solution v3: assign all tasks to team members with role check and task limits.
+        Iterator<SprintTask> taskIterator = allowedToAssignationTasks.iterator();
+
+        // Solution v4: assign tasks to team members with role check and task limits,
+        // with 'one task - one member' rule.
         for (TeamMember teamMember : teamMembers) {
             int tasksPerUser = 0;
 
-            for (SprintTask task : allowedToAssignationTasks) {
-                /*
-                 TODO: There is a potential situation here where two tasks need to be assigned to two users,
-                 but one task gets assigned to both users while the other remains unassigned.
-                 This needs to be fixed.
-                */
+            while (taskIterator.hasNext()) {
+                SprintTask task = taskIterator.next();
+
                 if (tasksPerUser >= maxTasksPerUser)
                     break;
 
@@ -67,19 +68,24 @@ public class SprintService extends RepositoryDependentService {
                     List<TeamRole> teamMemberRoles = teamMemberRoleRepository.findAllByTeamMember(teamMember).stream()
                         .map(TeamMemberRole::getRole).toList();
 
-                    if (!requiredRoles.stream().filter(teamMemberRoles::contains).toList().isEmpty())
-                    {
+                    if (!requiredRoles.stream().filter(teamMemberRoles::contains).toList().isEmpty()) {
+                        // TODO: Fix code duplication.
                         AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                         assignedTasks.add(assignedTask);
                         tasksPerUser++;
+                        taskIterator.remove();
                     }
                 }
                 else {
                     AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                     assignedTasks.add(assignedTask);
                     tasksPerUser++;
+                    taskIterator.remove();
                 }
             }
+
+            // Restart the iterator for the next team member.
+            taskIterator = allowedToAssignationTasks.iterator();
         }
 
         log.info("Assigned tasks (all entities): {}", assignedTasks.size());
