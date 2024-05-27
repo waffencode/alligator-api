@@ -46,6 +46,12 @@ public class DefaultProjectManagerInitialization {
                 adminRole.setUser(admin);
                 adminRole.setRole(roleAdmin);
                 userRoleRepository.save(adminRole);
+
+                Role roleBusinessAnalyst = roleRepository.findByName(RoleName.BUSINESS_ANALYTIC);
+                UserRole analyticRole = new UserRole();
+                analyticRole.setUser(admin);
+                analyticRole.setRole(roleBusinessAnalyst);
+                userRoleRepository.save(analyticRole);
             }
 
             if (!userInfoRepository.existsByUser(admin)) {
