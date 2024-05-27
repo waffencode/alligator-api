@@ -53,10 +53,12 @@ public class SprintService extends RepositoryDependentService {
             // We limit the maximum complexity of tasks per user to the average complexity per team.
             Long totalComplexity = allowedToAssignationTasks.stream().map(SprintTask::getSp).reduce(0L, Long::sum);
             maxWorkloadPerUser = (int) Math.ceil((double) totalComplexity / teamMembers.size());
+            log.info("Using complexity-based workload limit: {}", maxWorkloadPerUser);
         }
         else {
             // We limit the maximum number of tasks per user to the average number of available tasks per team.
             maxWorkloadPerUser = (int) Math.ceil((double) allowedToAssignationTasks.size() / teamMembers.size());
+            log.info("Using task count-based workload limit: {}", maxWorkloadPerUser);
         }
 
         Iterator<SprintTask> taskIterator = allowedToAssignationTasks.iterator();
