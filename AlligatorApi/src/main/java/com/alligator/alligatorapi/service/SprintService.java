@@ -46,21 +46,31 @@ public class SprintService extends RepositoryDependentService {
         List<TeamMember> teamMembers = teamMemberRepository.findAllByTeam(sprintTeam);
         List<AssignedTask> assignedTasks = new ArrayList<>();
 
-        // We limit the maximum number of tasks per user to the average number of available tasks per team.
-        int maxTasksPerUser = (int) Math.ceil((double) allowedToAssignationTasks.size() / teamMembers.size());
+        int maxWorkloadPerUser;
+        Boolean allTasksHaveComplexityMeasure = areAllTasksComplexityMeasured(allowedToAssignationTasks);
+
+        if (allTasksHaveComplexityMeasure) {
+            // We limit the maximum complexity of tasks per user to the average complexity per team.
+            Long totalComplexity = allowedToAssignationTasks.stream().map(SprintTask::getSp).reduce(0L, Long::sum);
+            maxWorkloadPerUser = (int) Math.ceil((double) totalComplexity / teamMembers.size());
+        }
+        else {
+            // We limit the maximum number of tasks per user to the average number of available tasks per team.
+            maxWorkloadPerUser = (int) Math.ceil((double) allowedToAssignationTasks.size() / teamMembers.size());
+        }
 
         Iterator<SprintTask> taskIterator = allowedToAssignationTasks.iterator();
 
         // Solution v4: assign tasks to team members with role check and task limits,
         // with 'one task - one member' rule.
         for (TeamMember teamMember : teamMembers) {
-            int tasksPerUser = 0;
+            int workloadPerUser = 0;
 
             while (taskIterator.hasNext()) {
                 SprintTask task = taskIterator.next();
                 log.info("Processing task '{}' with heading: '{}'", task.getTask(), task.getTask().getHeadline());
 
-                if (tasksPerUser >= maxTasksPerUser)
+                if (workloadPerUser >= maxWorkloadPerUser)
                     break;
 
                 if (taskHasRequirementsForRole(task)) {
@@ -76,7 +86,14 @@ public class SprintService extends RepositoryDependentService {
 
                 AssignedTask assignedTask = assignTaskToTeamMember(teamMember, task);
                 assignedTasks.add(assignedTask);
-                tasksPerUser++;
+
+                if (allTasksHaveComplexityMeasure) {
+                    workloadPerUser += task.getSp();
+                }
+                else {
+                    workloadPerUser++;
+                }
+
                 taskIterator.remove();
             }
 
@@ -156,7 +173,7 @@ public class SprintService extends RepositoryDependentService {
         return !sprintTaskRequiredRoleRepository.findByTask(task).isEmpty();
     }
 
-    private Boolean allTasksHaveComplexityMeasure(List<SprintTask> tasks) {
+    private Boolean areAllTasksComplexityMeasured(List<SprintTask> tasks) {
         return tasks.stream().allMatch(task -> task.getSp() > 0);
     }
 
