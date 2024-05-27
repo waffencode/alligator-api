@@ -156,6 +156,10 @@ public class SprintService extends RepositoryDependentService {
         return !sprintTaskRequiredRoleRepository.findByTask(task).isEmpty();
     }
 
+    private Boolean allTasksHaveComplexityMeasure(List<SprintTask> tasks) {
+        return tasks.stream().allMatch(task -> task.getSp() > 0);
+    }
+
     private Duration getTaskDuration(SprintTask task) {
         Timestamp current = new Timestamp(System.currentTimeMillis());
         Deadline deadline = task.getTask().getDeadline();
