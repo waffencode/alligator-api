@@ -38,6 +38,7 @@ public class SprintService extends RepositoryDependentService {
      * @return a list of AssignedTask objects representing the tasks assigned to team members.
      */
     // TODO: Make method return `void` or remove side effects, remove excessive logging.
+    // TODO: Make this method idempotent.
     public List<AssignedTask> doTaskAssignation(Sprint sprint) {
         List<SprintTask> allowedToAssignationTasks = getSprintTasks(sprint);
         log.info("Allowed to assignation tasks count: {}", allowedToAssignationTasks.size());
@@ -144,6 +145,7 @@ public class SprintService extends RepositoryDependentService {
         AssignedTask assignedTask = new AssignedTask();
         assignedTask.setTask(task);
         assignedTask.setTeamMember(teamMember);
+        assignedTask.setAssignationTime(new Timestamp(System.currentTimeMillis()));
         assignedTaskRepository.save(assignedTask);
         return assignedTask;
     }
