@@ -37,6 +37,7 @@ public class TeamService {
         teamMembers.forEach(teamMember -> {
                     TeamMemberUserInfoAndRolesResponse response = new TeamMemberUserInfoAndRolesResponse();
                     // TODO: think about it
+                    response.setTeamMemberId(teamMember.getId());
                     response.setUserInfo(userInfoRepository.findByUserId(teamMember.getUser().getId()).orElse(new UserInfo()));
                     response.setTeamMemberRoles(teamMemberRoleRepository.findAllByTeamMember(teamMember));
 

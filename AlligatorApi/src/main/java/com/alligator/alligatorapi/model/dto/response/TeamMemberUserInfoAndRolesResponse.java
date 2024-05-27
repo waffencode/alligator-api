@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamMemberUserInfoAndRolesResponse {
+    private Long teamMemberId;
     private UserInfo userInfo;
     private List<TeamMemberRole> teamMemberRoles;
 }
