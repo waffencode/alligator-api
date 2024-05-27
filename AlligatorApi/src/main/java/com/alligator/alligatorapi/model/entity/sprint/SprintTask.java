@@ -29,5 +29,5 @@ public class SprintTask {
     @JoinColumn(name = "task_id")
     private Task task;
 
-    private Long sp;
+    private Long sp = 0L;
 }

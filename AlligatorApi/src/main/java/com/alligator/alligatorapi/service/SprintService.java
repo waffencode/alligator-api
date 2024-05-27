@@ -176,7 +176,7 @@ public class SprintService extends RepositoryDependentService {
     }
 
     private Boolean areAllTasksComplexityMeasured(List<SprintTask> tasks) {
-        return tasks.stream().allMatch(task -> task.getSp() > 0);
+        return tasks.stream().allMatch(task -> task.getSp() > 0L);
     }
 
     private Duration getTaskDuration(SprintTask task) {

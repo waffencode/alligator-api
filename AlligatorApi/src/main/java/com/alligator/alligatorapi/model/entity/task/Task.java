@@ -32,5 +32,4 @@ public class Task {
 
     private String headline;
     private String description;
-
 }
