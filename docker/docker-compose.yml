@@ -28,6 +28,16 @@ services:
     networks:
       - internal
 
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ../../alligator-web-frontend/build:/usr/share/nginx/html
+    networks:
+      - internal
+    restart: always
+
 networks:
   internal:
     driver: bridge
